@@ -611,264 +611,6 @@
     },
     {
       "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "loose",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.output }}",
-                    "rightValue": "Ainda faltam algumas informações, não consigo criar a sua tarefa por enquanto",
-                    "operator": {
-                      "type": "string",
-                      "operation": "startsWith"
-                    },
-                    "id": "dcb605c9-4833-4f40-9520-82320f7147dc"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Faltam algumas informações"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "loose",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "de5803fa-3444-46bc-9759-a831679fc421",
-                    "leftValue": "={{ $json.output }}",
-                    "rightValue": "Obrigado por todas as informações, sua tarefa será criada",
-                    "operator": {
-                      "type": "string",
-                      "operation": "startsWith"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Tem todas as informações"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "loose",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "fd13e399-e980-4a33-8d02-d13f4e4623f8",
-                    "leftValue": "={{ $json.output }}",
-                    "rightValue": "Ainda faltam algumas informações, não consigo criar a sua tarefa por enquanto",
-                    "operator": {
-                      "type": "string",
-                      "operation": "notStartsWith"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Outra resposta 1"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "loose",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "6234fc36-79b7-45fa-890c-1632a972aa06",
-                    "leftValue": "={{ $json.output }}",
-                    "rightValue": "Obrigado por todas as informações, sua tarefa será criada",
-                    "operator": {
-                      "type": "string",
-                      "operation": "notStartsWith"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Outra resposta 2"
-            }
-          ]
-        },
-        "looseTypeValidation": "={{ true }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.3,
-      "position": [
-        3104,
-        -448
-      ],
-      "id": "7cee9280-d1d1-4454-8e47-ac8937db1727",
-      "name": "Switch1"
-    },
-    {
-      "parameters": {
-        "resource": "Chatting",
-        "operation": "Send Text",
-        "session": "={{ $('Organização dos dados 1').item.json.session }}",
-        "chatId": "={{ $('Organização dos dados 1').item.json.chatID }}",
-        "text": "={{ $('Switch1').item.json.output }}",
-        "requestOptions": {}
-      },
-      "type": "n8n-nodes-waha.WAHA",
-      "typeVersion": 202411,
-      "position": [
-        3616,
-        -592
-      ],
-      "id": "2f0e2e6e-0ccf-4bf7-96c3-d608141c94c7",
-      "name": "Send a text message1",
-      "credentials": {
-        "wahaApi": {
-          "id": "JxbmhRVAvVhnQTjY",
-          "name": "WAHA credencial"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "Chatting",
-        "operation": "Send Seen",
-        "session": "={{ $('Organização dos dados 1').item.json.session }}",
-        "chatId": "={{ $('Organização dos dados 1').item.json.chatID }}",
-        "messageId": "={{ $('Organização dos dados 1').item.json.payload_id }}",
-        "requestOptions": {}
-      },
-      "type": "n8n-nodes-waha.WAHA",
-      "typeVersion": 202411,
-      "position": [
-        3392,
-        -592
-      ],
-      "id": "a9c870fe-3920-48d5-ac0f-f1649d590c8b",
-      "name": "Send Seen1",
-      "credentials": {
-        "wahaApi": {
-          "id": "JxbmhRVAvVhnQTjY",
-          "name": "WAHA credencial"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "Chatting",
-        "operation": "Send Text",
-        "session": "={{ $('Organização dos dados 1').item.json.session }}",
-        "chatId": "={{ $('Organização dos dados 1').item.json.chatID }}",
-        "text": "={{ $('Switch1').item.json.output }}",
-        "requestOptions": {}
-      },
-      "type": "n8n-nodes-waha.WAHA",
-      "typeVersion": 202411,
-      "position": [
-        3616,
-        -416
-      ],
-      "id": "6f97e2ae-2bde-4aef-a693-ee4f83ff8b04",
-      "name": "Send a text message2",
-      "credentials": {
-        "wahaApi": {
-          "id": "JxbmhRVAvVhnQTjY",
-          "name": "WAHA credencial"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "Chatting",
-        "operation": "Send Seen",
-        "session": "={{ $('Organização dos dados 1').item.json.session }}",
-        "chatId": "={{ $('Organização dos dados 1').item.json.chatID }}",
-        "messageId": "={{ $('Organização dos dados 1').item.json.payload_id }}",
-        "requestOptions": {}
-      },
-      "type": "n8n-nodes-waha.WAHA",
-      "typeVersion": 202411,
-      "position": [
-        3392,
-        -416
-      ],
-      "id": "e3be52d3-d565-4fab-9b5e-b0a38a7e3e1d",
-      "name": "Send Seen2",
-      "credentials": {
-        "wahaApi": {
-          "id": "JxbmhRVAvVhnQTjY",
-          "name": "WAHA credencial"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "Chatting",
-        "operation": "Send Text",
-        "session": "={{ $('Organização dos dados 1').item.json.session }}",
-        "chatId": "={{ $('Organização dos dados 1').item.json.chatID }}",
-        "text": "={{ $('Switch1').item.json.output }}",
-        "requestOptions": {}
-      },
-      "type": "n8n-nodes-waha.WAHA",
-      "typeVersion": 202411,
-      "position": [
-        3616,
-        -224
-      ],
-      "id": "d2e22463-556a-4d73-aa1e-127c9f330a29",
-      "name": "Send a text message3",
-      "credentials": {
-        "wahaApi": {
-          "id": "JxbmhRVAvVhnQTjY",
-          "name": "WAHA credencial"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "Chatting",
-        "operation": "Send Seen",
-        "session": "={{ $('Organização dos dados 1').item.json.session }}",
-        "chatId": "={{ $('Organização dos dados 1').item.json.chatID }}",
-        "messageId": "={{ $('Organização dos dados 1').item.json.payload_id }}",
-        "requestOptions": {}
-      },
-      "type": "n8n-nodes-waha.WAHA",
-      "typeVersion": 202411,
-      "position": [
-        3392,
-        -224
-      ],
-      "id": "8ee5d1cf-da85-44f0-9a00-9732cd2b6c0d",
-      "name": "Send Seen3",
-      "credentials": {
-        "wahaApi": {
-          "id": "JxbmhRVAvVhnQTjY",
-          "name": "WAHA credencial"
-        }
-      }
-    },
-    {
-      "parameters": {
         "assignments": {
           "assignments": [
             {
@@ -911,27 +653,6 @@
           "name": "API Gemini criação de tasks wpp e bitrix24"
         }
       }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "=https://mdrepresentacoes.bitrix24.com.br/rest/1621/jjbltzqkihxgot8n/tasks.task.add",
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {}
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        3856,
-        -416
-      ],
-      "id": "69e5db5d-dd4d-4b9a-84d0-a86d604e9920",
-      "name": "HTTP Request3"
     },
     {
       "parameters": {
@@ -995,7 +716,7 @@
       "typeVersion": 3.3,
       "position": [
         2992,
-        224
+        -416
       ],
       "id": "52ae66c5-9be2-4548-a789-fbc4bd3f4d59",
       "name": "Pode criar a tarefa?"
@@ -1027,7 +748,7 @@
       "typeVersion": 202411,
       "position": [
         3312,
-        112
+        -528
       ],
       "id": "fe7ed733-1e39-4c05-9142-9628e61288cc",
       "name": "Marcar como lido",
@@ -1051,7 +772,7 @@
       "typeVersion": 202411,
       "position": [
         3536,
-        112
+        -528
       ],
       "id": "9fdb103c-afb1-4014-9e2e-58f7e2fa0a40",
       "name": "Msg de resposta",
@@ -1075,7 +796,7 @@
       "typeVersion": 202411,
       "position": [
         3760,
-        112
+        -528
       ],
       "id": "7cfbb6d6-80d0-48c0-8938-7921da3a872b",
       "name": "Msg de pergunta",
@@ -1099,7 +820,7 @@
       "typeVersion": 202411,
       "position": [
         3328,
-        352
+        -288
       ],
       "id": "339362dd-a271-413f-902c-6e372b108280",
       "name": "Marcar como lido1",
@@ -1123,7 +844,7 @@
       "typeVersion": 202411,
       "position": [
         3552,
-        352
+        -288
       ],
       "id": "ae989dbf-d66d-4c9f-bf21-0bd49606cacd",
       "name": "Msg de resposta1",
@@ -1133,27 +854,6 @@
           "name": "WAHA credencial"
         }
       }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://mdrepresentacoes.bitrix24.com.br/rest/1621/jjbltzqkihxgot8n/tasks.task.add",
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {}
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        4480,
-        352
-      ],
-      "id": "cc2b3c7a-ff88-44f4-94dc-9616c0706ec0",
-      "name": "HTTP Request4"
     },
     {
       "parameters": {
@@ -1323,7 +1023,7 @@
       "typeVersion": 3.4,
       "position": [
         4048,
-        352
+        -288
       ],
       "id": "6b5891e2-6572-4edc-9b06-4807cf6ac629",
       "name": "Dados para o bitrix"
@@ -1394,12 +1094,60 @@
       "typeVersion": 3.4,
       "position": [
         3760,
-        352
+        -288
       ],
       "id": "7f2a43f0-cbe7-4c3a-bad5-cb575f859a1e",
       "name": "Organização dos dados 2",
       "alwaysOutputData": false,
       "executeOnce": false
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mdrepresentacoes.bitrix24.com.br/rest/1621/jjbltzqkihxgot8n/tasks.task.add",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "fields[TITLE]",
+              "value": "={{ $json['Nome da tarefa'] }}"
+            },
+            {
+              "name": "fields[DESCRIPTION]",
+              "value": "={{ $json['Descrição da tarefa'] }}"
+            },
+            {
+              "name": "fields[RESPONSIBLE_ID]",
+              "value": "={{ $json['Responsável'] }}"
+            },
+            {
+              "name": "fields[GROUP_ID]",
+              "value": "={{ $json.Grupo }}"
+            },
+            {
+              "name": "fields[ACCOMPLICES]",
+              "value": "={{ $json.Participantes }}"
+            },
+            {
+              "name": "fields[AUDITORS]",
+              "value": "={{ $json.Observadores }}"
+            },
+            {
+              "name": "fields[DEADLINE]",
+              "value": "={{ $json.Prazo }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        4480,
+        -288
+      ],
+      "id": "cc2b3c7a-ff88-44f4-94dc-9616c0706ec0",
+      "name": "Criação da task"
     }
   ],
   "pinData": {
@@ -1780,76 +1528,6 @@
         ]
       ]
     },
-    "Send Seen1": {
-      "main": [
-        [
-          {
-            "node": "Send a text message1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Switch1": {
-      "main": [
-        [
-          {
-            "node": "Send Seen1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Send Seen2",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Send Seen3",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Send Seen3",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send a text message1": {
-      "main": [
-        []
-      ]
-    },
-    "Send Seen2": {
-      "main": [
-        [
-          {
-            "node": "Send a text message2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send Seen3": {
-      "main": [
-        [
-          {
-            "node": "Send a text message3",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Edit Fields1": {
       "main": [
         [
@@ -1867,17 +1545,6 @@
           {
             "node": "AI Agent",
             "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send a text message2": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request3",
-            "type": "main",
             "index": 0
           }
         ]
@@ -1982,7 +1649,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request4",
+            "node": "Criação da task",
             "type": "main",
             "index": 0
           }
@@ -2005,7 +1672,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "b4ee1d6b-ed58-40cf-a307-a2f768d4b4da",
+  "versionId": "3344e8aa-8eb5-4352-a59c-130b05d44dda",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "02b60b6cc955c8e64f7f791336e62988ee75f38958bc52bbd8771d731ababb7a"
