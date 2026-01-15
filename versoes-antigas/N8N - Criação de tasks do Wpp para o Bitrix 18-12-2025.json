@@ -1,0 +1,1682 @@
+{
+  "name": "Criação de tasks do Wpp para o Bitrix",
+  "nodes": [
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Recebimento de mensagens').item.json.body.payload._data.Info.Type }}",
+                    "rightValue": "text",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "80dc8245-80d9-4fbd-9502-e5bb8fc2c890"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "texto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ad80787e-a96b-4cd4-8eb9-d8ed96a8a28b",
+                    "leftValue": "={{ $json.mimetype }}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "imagem"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1f9ff31d-98b4-4925-ac6d-5892dd3d0a58",
+                    "leftValue": "={{ $json.mimetype }}",
+                    "rightValue": "audio",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "aúdio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e6ac0be1-1aa7-471d-bc32-1f4daaeaa8df",
+                    "leftValue": "={{ $json.mimetype }}",
+                    "rightValue": "application/pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "pdf"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b9043ff0-af0a-4945-b675-1a805ee74c0e",
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "outros"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        896,
+        -272
+      ],
+      "id": "ec5713c3-de33-4f05-9229-016e34c06697",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4f6ec03b-b199-423d-a4c9-9e363b32ffb5",
+              "leftValue": "={{ $json.body.payload._data.Info.IsGroup }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        -224
+      ],
+      "id": "f2266ea6-1864-4964-8f14-d3755e03c6de",
+      "name": "É grupo?"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "8839c6bf-e3cd-49b1-9216-6084e9275e8a",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        -224
+      ],
+      "id": "864a785c-6cf2-4d17-a4eb-32424f66c05e",
+      "name": "Recebimento de mensagens",
+      "webhookId": "8839c6bf-e3cd-49b1-9216-6084e9275e8a"
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2016,
+        -448
+      ],
+      "id": "164f57a0-d1e1-48e4-aad8-54c98f552381",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "15e6f85d-1478-493e-aa15-123f741e45bd",
+              "name": "mensagem imagem",
+              "value": "={{ $json['mensagem imagem'] }}",
+              "type": "string"
+            },
+            {
+              "id": "a027e0c8-225e-4313-9669-d2db5fa35a50",
+              "name": "legenda imagem",
+              "value": "={{ $('Recebimento de mensagens').item.json.body.payload._data.RawMessage.imageMessage.caption }}",
+              "type": "string"
+            },
+            {
+              "id": "d6b126c3-ea01-4209-99d5-a151f43802b4",
+              "name": "image url corrigida",
+              "value": "={{ $json[\"mensagem imagem\"].replace('http://localhost:5678', 'http://host.docker.internal:5678') }}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        -416
+      ],
+      "id": "75d256b3-f075-4e66-8919-5249facedd9e",
+      "name": "mensagem imagem"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec288bbf-73fc-4a6e-a7f9-4deb7b12ed95",
+              "name": "mensagem",
+              "value": "={{ $json['mensagem texto'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        -592
+      ],
+      "id": "a412d895-d36b-4283-ae31-47c2cd762dfc",
+      "name": "mensagem texto"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "text": "=Analise a imagem e dê detalhes do que tem nela. Se o usuário enviar uma foto de algum produto, tente verificar se possui o nome dele na imagem. Se o usuário enviar uma relação de nomes de produtos para orçamento, analise e descreva bem cada item por categoria.\n\nO usuário que enviou a imagem disse junto:  {{ $json[\"legenda imagem\"] || \"Não disse nada\"}}",
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1568,
+        -416
+      ],
+      "id": "f009f68c-40bd-4631-9dfa-2b9505ddc4e4",
+      "name": "Analyze an image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "reYVcQGVv6cPNzyA",
+          "name": "API Gemini criação de tasks wpp e bitrix24"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ \n  $json['mensagem imagem']\n    .replace('http://localhost:3000', 'http://waha:3000')\n}}\n",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wahaApi",
+        "options": {
+          "proxy": ""
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1344,
+        -416
+      ],
+      "id": "05373bb3-21e7-443a-85bf-cc8ec7186a21",
+      "name": "HTTP Request",
+      "credentials": {
+        "wahaApi": {
+          "id": "JxbmhRVAvVhnQTjY",
+          "name": "WAHA credencial"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "71fbee92-64fa-4d5f-bfb7-b34bb722f3f8",
+              "leftValue": "={{ $('Recebimento de mensagens').item.json.body.payload.from }}",
+              "rightValue": "8491029054",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "c098d39d-9e8e-4d26-920b-bd549f87461e",
+              "leftValue": "={{ $json['número'] }}",
+              "rightValue": "8494032113",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "164f318d-5c21-412f-972c-ed2b52f0abab",
+              "leftValue": "={{ $json['número'] }}",
+              "rightValue": "8494818515",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        -224
+      ],
+      "id": "7b04f30b-22e9-43aa-a042-392a4aba8041",
+      "name": "Filtro"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "355941df-932b-48d8-bee5-c0b7fc1ff374",
+              "name": "arquivo aúdio",
+              "value": "={{ $json['mensagem aúdio'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1344,
+        -192
+      ],
+      "id": "771f7f96-c31a-4d86-8175-70fbde7c0268",
+      "name": "mensagem aúdio"
+    },
+    {
+      "parameters": {
+        "url": "={{ \n  $json['arquivo aúdio']\n    .replace('http://localhost:3000', 'http://waha:3000')\n}}\n",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wahaApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1568,
+        -192
+      ],
+      "id": "37bbe010-a790-4c0f-8af0-ee2b8074d190",
+      "name": "HTTP Request1",
+      "credentials": {
+        "wahaApi": {
+          "id": "JxbmhRVAvVhnQTjY",
+          "name": "WAHA credencial"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1792,
+        -192
+      ],
+      "id": "ca1c8d4e-5309-4d61-9831-019426b8480e",
+      "name": "Transcribe a recording",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "reYVcQGVv6cPNzyA",
+          "name": "API Gemini criação de tasks wpp e bitrix24"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "322ec29a-464b-4f6f-b10a-bd0f7a5d63d3",
+              "name": "arquivo pdf",
+              "value": "={{ $json['mensagem pdf'] }}",
+              "type": "string"
+            },
+            {
+              "id": "43b042d4-223a-46d0-9ee5-7d37674148ee",
+              "name": "título pdf",
+              "value": "={{ $('Recebimento de mensagens').item.json.body.payload.media.filename }}",
+              "type": "string"
+            },
+            {
+              "id": "30f05464-0e91-4921-8f91-5bc5e527d9b4",
+              "name": "legenda pdf",
+              "value": "={{ $('Recebimento de mensagens').item.json.body.payload._data.Message.documentMessage.caption }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1344,
+        0
+      ],
+      "id": "ea24613d-f445-4a99-bb50-b2f914aaa3cf",
+      "name": "mensagem pdf"
+    },
+    {
+      "parameters": {
+        "url": "={{ \n  $json['arquivo pdf']\n    .replace('http://localhost:3000', 'http://waha:3000')\n}}\n",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wahaApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1568,
+        0
+      ],
+      "id": "c2211409-3c74-4d23-a5ba-e0b7a39df0bf",
+      "name": "HTTP Request2",
+      "credentials": {
+        "wahaApi": {
+          "id": "JxbmhRVAvVhnQTjY",
+          "name": "WAHA credencial"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "document",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "text": "=Analise o pdf e dê detalhes do que tem nele. Se o usuário enviar uma foto de algum produto, tente verificar se possui o nome dele na imagem. Se o usuário enviar uma relação de nomes de produtos para orçamento, analise e descreva bem cada item por categoria.\n\nO arquivo possui o seguinte título: {{ $json['título pdf'] }}\n\nO usuário que enviou a imagem disse junto na legenda: {{ $json['arquivo pdf'] || \"Não disse nada\"}}",
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1792,
+        0
+      ],
+      "id": "df93db85-ad62-457f-a6bf-8aa6c961cbbe",
+      "name": "Analyze document",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "reYVcQGVv6cPNzyA",
+          "name": "API Gemini criação de tasks wpp e bitrix24"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "Chatting",
+        "operation": "Send Text",
+        "session": "={{ $('Organização dos dados 1').item.json.session }}",
+        "chatId": "={{ $('Organização dos dados 1').item.json.chatID }}",
+        "text": "=Olá {{ $('Organização dos dados 1').item.json.pushName }}! Tudo bem? \n\nNão consigo reconhecer esse tipo de arquivo, por favor enviar essa demanda novamente.",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-waha.WAHA",
+      "typeVersion": 202411,
+      "position": [
+        1344,
+        192
+      ],
+      "id": "27a67284-7d32-4f6e-b52a-53936e31e080",
+      "name": "Send a text message",
+      "credentials": {
+        "wahaApi": {
+          "id": "JxbmhRVAvVhnQTjY",
+          "name": "WAHA credencial"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "Chatting",
+        "operation": "Send Seen",
+        "session": "={{ $('Organização dos dados 1').item.json.session }}",
+        "chatId": "={{ $('Organização dos dados 1').item.json.chatID }}",
+        "messageId": "={{ $('Organização dos dados 1').item.json.payload_id }}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-waha.WAHA",
+      "typeVersion": 202411,
+      "position": [
+        1120,
+        192
+      ],
+      "id": "04c6ec4d-ea95-4d1a-8c96-5faef4057f85",
+      "name": "Send Seen",
+      "credentials": {
+        "wahaApi": {
+          "id": "JxbmhRVAvVhnQTjY",
+          "name": "WAHA credencial"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.Mensagem }}",
+        "options": {
+          "systemMessage": "=Você é um Agente de IA responsável por interpretar mensagens enviadas por usuários no WhatsApp e determinar se já existem informações suficientes para criar uma tarefa no CRM Bitrix24 da empresa MD Representações.\n\nSua função é:\n\n1. Analisar todo o conteúdo recebido (texto, descrição de imagem/áudio/PDF e qualquer outro elemento consolidado no fluxo anterior).\n2. Identificar se todos os campos obrigatórios para criar uma tarefa estão disponíveis.\n3. Retornar UMA SAÍDA ESTRUTURADA EM JSON PURO quando todas as informações estiverem completas.\n4. Ou perguntar ao usuário pelas informações faltantes, seguindo o formato definido.\n\n--------------------------------------------------------------------------------\n🎯 CAMPOS OBRIGATÓRIOS PARA CRIAÇÃO DA TAREFA\n\nOs campos abaixo se dividem entre CONSTANTES e VARIÁVEIS:\n\n### 🟩 CAMPOS FIXOS (sempre iguais):\n- grupo: \"Tarefas-Gestão\"\n- criado_por: \"Alex\"\n- observadores: [\"Alex\", \"Fabiola\", \"Igor\", \"João\"]\n\n### 🟦 CAMPOS VARIÁVEIS (precisam ser identificados na mensagem):\n- nome_da_tarefa:\n  Deve seguir o padrão: \"Tipo da atividade - Nome do Cliente\"\n  Exemplo:\n  - Orçamento - Construtora ABC\n  - Compra - Loja XPTO\n\n- descricao:\n  Explicação textual do que deve ser feito. Pode vir da mensagem original ou da descrição gerada pela IA.\n\n- responsavel:\n  A pessoa indicada pelo usuário para executar a tarefa.\n\n- participantes:\n  Lista de outras pessoas mencionadas pelo usuário que atuarão junto.\n\n- prazo:\n  Regras:\n    - Se a mensagem foi enviada antes de 12h → prazo: hoje às 18:00\n    - Se enviada após 12h → prazo: próximo dia útil às 12:00\n  (O agente deve calcular automaticamente)\n\n--------------------------------------------------------------------------------\n🧠 LÓGICA DE DECISÃO E FORMATO DE SAÍDA (OBRIGATÓRIO)\n\n### ✔️ SE TODAS AS INFORMAÇÕES OBRIGATÓRIAS ESTIVEREM PRESENTES:\n\nVocê DEVE retornar **APENAS UM JSON VÁLIDO**, sem qualquer texto fora do JSON.\n\nFormato EXATO da resposta:\n\n{\n  \"pode_criar\": true,\n  \"mensagem_usuario\": \"Obrigado por todas as informações, sua tarefa será criada!\",\n  \"dados_tarefa\": {\n    \"grupo\": \"Tarefas-Gestão\",\n    \"criado_por\": \"Alex\",\n    \"observadores\": [\"Alex\", \"Fabiola\", \"Igor\", \"João\"],\n    \"nome_da_tarefa\": \"\",\n    \"descricao\": \"\",\n    \"responsavel\": \"\",\n    \"participantes\": [],\n    \"prazo\": \"\"\n  }\n}\n\n--------------------------------------------------------------------------------\n❌ SE FALTAR QUALQUER INFORMAÇÃO:\n\nVocê DEVE retornar **APENAS UM JSON VÁLIDO**, sem qualquer texto fora do JSON.\n\nFormato EXATO da resposta:\n\n{\n  \"pode_criar\": false,\n  \"mensagem_usuario\": \"Ainda faltam algumas informações, não consigo criar a sua tarefa por enquanto.\",\n  \"faltando\": [],\n  \"pergunta\": \"\"\n}\n\nOnde:\n- \"faltando\" deve conter uma lista objetiva dos campos ausentes.\n- \"pergunta\" deve conter uma pergunta clara e direta ao usuário.\n\n--------------------------------------------------------------------------------\n📌 REGRAS IMPORTANTES\n\n- Nunca invente dados.\n- Só use informações realmente encontradas na mensagem.\n- Caso o usuário mencione nomes, considere-os como possíveis responsáveis ou participantes.\n- Se a descrição vier de imagem/áudio/pdf, use-a normalmente.\n- O output deve ser SEMPRE JSON PURO, válido e parseável.\n- Nunca escreva texto fora do JSON.\n- Se houver ambiguidade, pergunte.\n\n--------------------------------------------------------------------------------\nAgora siga sempre essa lógica e responda de acordo com o conteúdo recebido.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        2464,
+        -416
+      ],
+      "id": "bee87385-e421-4394-b009-2d844cfb7d9e",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Organização dos dados 1').item.json.chatID }}",
+        "sessionTTL": 3600,
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        2624,
+        -192
+      ],
+      "id": "a08882e1-4332-4f94-9643-fdfd620dabfe",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "2KHDIgzTxfaFqfWr",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "253ae7ff-9ebc-43d0-a3c7-e8142aa85fb2",
+              "name": "Mensagem",
+              "value": "={{ $json.mensagem }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2240,
+        -416
+      ],
+      "id": "8ebb1e18-2831-42a8-bfe4-c37c6b7159f4",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {
+          "temperature": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2448,
+        -208
+      ],
+      "id": "14f66295-fa43-4a34-bfa4-627a0652eec4",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "reYVcQGVv6cPNzyA",
+          "name": "API Gemini criação de tasks wpp e bitrix24"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.pode_criar }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "false",
+                      "singleValue": true
+                    },
+                    "id": "efcb7e94-031d-4785-b54e-765c71a1f4b5"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Não"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "f1c1ae2e-2048-4cd5-bbcb-b18bb7be2291",
+                    "leftValue": "={{ $json.dados.pode_criar }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sim"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        2992,
+        -416
+      ],
+      "id": "52ae66c5-9be2-4548-a789-fbc4bd3f4d59",
+      "name": "Pode criar a tarefa?"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "import json\nimport re\nfrom datetime import datetime, timedelta\n\n# Se quiser forçar fuso, use zoneinfo (Python 3.9+):\n# from zoneinfo import ZoneInfo\n# TZ = ZoneInfo(\"America/Fortaleza\")\n\ndef proximo_dia_util(data):\n    # 0=segunda ... 4=sexta, 5=sab, 6=dom\n    while data.weekday() >= 5:\n        data += timedelta(days=1)\n    return data\n\ndef calcular_prazo(now: datetime) -> str:\n    # regra: antes de 12:00 -> hoje 18:00 | após 12:00 -> próximo dia útil 12:00\n    if now.hour < 12:\n        due = now.replace(hour=18, minute=0, second=0, microsecond=0)\n    else:\n        data = proximo_dia_util((now + timedelta(days=1)).date())\n        due = datetime.combine(data, datetime.min.time()).replace(hour=12, minute=0)\n    # retorna em ISO (bom para APIs)\n    return due.isoformat()\n\nitems = []\n\nfor item in _input.all():\n    raw_text = item.json.get(\"output\", \"\")\n\n    if not raw_text:\n        items.append({\"ok\": False, \"error\": \"Campo 'output' vazio\", \"raw\": item.json})\n        continue\n\n    # Remove cercas ``` e a palavra json, e também remove um \"json\" solto no início\n    cleaned = re.sub(r\"```(?:json)?|```\", \"\", raw_text, flags=re.IGNORECASE).strip()\n    cleaned = re.sub(r\"^\\s*json\\s*\", \"\", cleaned, flags=re.IGNORECASE).strip()\n\n    try:\n        parsed = json.loads(cleaned)\n\n        # ✅ Só calcula prazo quando PODE criar (para não \"inventar\" prazo quando está faltando)\n        if bool(parsed.get(\"pode_criar\")):\n            if not parsed.get(\"prazo\") or str(parsed.get(\"prazo\")).strip() == \"\":\n                now = datetime.now()  # ou datetime.now(TZ) se você forçar fuso\n                parsed[\"prazo\"] = calcular_prazo(now)\n\n        items.append({\n            \"ok\": True,\n            \"pode_criar\": bool(parsed.get(\"pode_criar\", False)),\n            \"dados\": parsed\n        })\n\n    except Exception as e:\n        items.append({\"ok\": False, \"error\": str(e), \"raw_text\": raw_text})\n\nreturn items\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2816,
+        -416
+      ],
+      "id": "7f0a1a0a-d955-493d-b103-59f8d64e9e38",
+      "name": "Code in Python (Beta)"
+    },
+    {
+      "parameters": {
+        "resource": "Chatting",
+        "operation": "Send Seen",
+        "session": "={{ $('Organização dos dados 1').item.json.session }}",
+        "chatId": "={{ $('Organização dos dados 1').item.json.chatID }}",
+        "messageId": "={{ $('Organização dos dados 1').item.json.payload_id }}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-waha.WAHA",
+      "typeVersion": 202411,
+      "position": [
+        3312,
+        -528
+      ],
+      "id": "fe7ed733-1e39-4c05-9142-9628e61288cc",
+      "name": "Marcar como lido",
+      "credentials": {
+        "wahaApi": {
+          "id": "JxbmhRVAvVhnQTjY",
+          "name": "WAHA credencial"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "Chatting",
+        "operation": "Send Text",
+        "session": "={{ $('Organização dos dados 1').item.json.session }}",
+        "chatId": "={{ $('Organização dos dados 1').item.json.chatID }}",
+        "text": "={{ $('Pode criar a tarefa?').item.json.dados.mensagem_usuario }}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-waha.WAHA",
+      "typeVersion": 202411,
+      "position": [
+        3536,
+        -528
+      ],
+      "id": "9fdb103c-afb1-4014-9e2e-58f7e2fa0a40",
+      "name": "Msg de resposta",
+      "credentials": {
+        "wahaApi": {
+          "id": "JxbmhRVAvVhnQTjY",
+          "name": "WAHA credencial"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "Chatting",
+        "operation": "Send Text",
+        "session": "={{ $('Organização dos dados 1').item.json.session }}",
+        "chatId": "={{ $('Organização dos dados 1').item.json.chatID }}",
+        "text": "={{ $('Pode criar a tarefa?').item.json.dados.pergunta }}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-waha.WAHA",
+      "typeVersion": 202411,
+      "position": [
+        3760,
+        -528
+      ],
+      "id": "7cfbb6d6-80d0-48c0-8938-7921da3a872b",
+      "name": "Msg de pergunta",
+      "credentials": {
+        "wahaApi": {
+          "id": "JxbmhRVAvVhnQTjY",
+          "name": "WAHA credencial"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "Chatting",
+        "operation": "Send Seen",
+        "session": "={{ $('Organização dos dados 1').item.json.session }}",
+        "chatId": "={{ $('Organização dos dados 1').item.json.chatID }}",
+        "messageId": "={{ $('Organização dos dados 1').item.json.payload_id }}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-waha.WAHA",
+      "typeVersion": 202411,
+      "position": [
+        3328,
+        -288
+      ],
+      "id": "339362dd-a271-413f-902c-6e372b108280",
+      "name": "Marcar como lido1",
+      "credentials": {
+        "wahaApi": {
+          "id": "JxbmhRVAvVhnQTjY",
+          "name": "WAHA credencial"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "Chatting",
+        "operation": "Send Text",
+        "session": "={{ $('Organização dos dados 1').item.json.session }}",
+        "chatId": "={{ $('Organização dos dados 1').item.json.chatID }}",
+        "text": "={{ $('Pode criar a tarefa?').item.json.dados.mensagem_usuario }}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-waha.WAHA",
+      "typeVersion": 202411,
+      "position": [
+        3552,
+        -288
+      ],
+      "id": "ae989dbf-d66d-4c9f-bf21-0bd49606cacd",
+      "name": "Msg de resposta1",
+      "credentials": {
+        "wahaApi": {
+          "id": "JxbmhRVAvVhnQTjY",
+          "name": "WAHA credencial"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "12e38dd9-e9a3-4113-bf3a-83ff7c2aa22c",
+              "name": "Descrição da imagem",
+              "value": "={{ $json.content.parts[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1792,
+        -416
+      ],
+      "id": "ce864326-b2dc-45cb-bce9-bee51ae31d43",
+      "name": "Descrição da imagem"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "85338b9b-1485-4370-be7c-429e9411e272",
+              "name": "número",
+              "value": "={{ $json.body.payload.from }}",
+              "type": "string"
+            },
+            {
+              "id": "d74eb53c-cde5-4d75-a4d8-06738dba2c70",
+              "name": "mensagem texto",
+              "value": "={{ $('Recebimento de mensagens').item.json.body.payload.body }}",
+              "type": "string"
+            },
+            {
+              "id": "19b02e0f-d719-4c4d-84f8-c2664652c58c",
+              "name": "mensagem imagem",
+              "value": "={{ $('Recebimento de mensagens').item.json.body.payload.media.url }}",
+              "type": "string"
+            },
+            {
+              "id": "1ba8a3dd-26c6-423c-9e05-790f33763014",
+              "name": "mensagem aúdio",
+              "value": "={{ $json.body.payload.media.url }}",
+              "type": "string"
+            },
+            {
+              "id": "b6a0d9ac-07a3-4eac-a8b3-2cbfd2b66260",
+              "name": "mensagem pdf",
+              "value": "={{ $('Recebimento de mensagens').item.json.body.payload.media.url }}",
+              "type": "string"
+            },
+            {
+              "id": "60c818f3-95b8-4176-bd82-a1b2c1bcf1b8",
+              "name": "mimetype",
+              "value": "={{ $('Recebimento de mensagens').item.json.body.payload.media.mimetype }}",
+              "type": "string"
+            },
+            {
+              "id": "c5900437-1032-41f0-a5c0-f2dcf97efe2e",
+              "name": "session",
+              "value": "={{ $('Recebimento de mensagens').item.json.body.session }}",
+              "type": "string"
+            },
+            {
+              "id": "51374d7c-878c-4367-8589-34bb69812c99",
+              "name": "pushName",
+              "value": "={{ $('Recebimento de mensagens').item.json.body.payload._data.Info.PushName }}",
+              "type": "string"
+            },
+            {
+              "id": "a5feee57-03da-4d62-bd4f-4cab71a5826e",
+              "name": "payload_id",
+              "value": "={{ $('Recebimento de mensagens').item.json.body.payload.id }}",
+              "type": "string"
+            },
+            {
+              "id": "0f08a61a-0193-462d-9bb0-16fc2218a11a",
+              "name": "event",
+              "value": "={{ $('Recebimento de mensagens').item.json.body.event }}",
+              "type": "string"
+            },
+            {
+              "id": "8653fcc7-41a0-4a94-b836-549cc7628725",
+              "name": "chatID",
+              "value": "={{ $('Recebimento de mensagens').item.json.body.payload.from }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        -224
+      ],
+      "id": "f4521322-a0ea-41c6-aff6-913ab893bb69",
+      "name": "Organização dos dados 1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5187a99e-f718-4cbf-9d64-cc30e1283593",
+              "name": "Nome da tarefa",
+              "value": "={{ $('Organização dos dados 2').item.json['Nome da tarefa'] }}",
+              "type": "string"
+            },
+            {
+              "id": "14291dfb-26ac-4958-95ff-ff28053355a9",
+              "name": "Descrição da tarefa",
+              "value": "={{ $('Organização dos dados 2').item.json['Descrição da tarefa'] }}",
+              "type": "string"
+            },
+            {
+              "id": "58e38328-7762-4fc4-b75c-e4a8c276c3c3",
+              "name": "Grupo",
+              "value": 11,
+              "type": "number"
+            },
+            {
+              "id": "f0771fca-d4e6-4577-8f1c-834c12d4e293",
+              "name": "Criado por",
+              "value": "={{ $json['Criado por'] }}",
+              "type": "string"
+            },
+            {
+              "id": "844024f7-93ad-4da0-bb17-737c86139a3a",
+              "name": "Responsável",
+              "value": "={{ $json.mapa_usuarios[$json['Responsável']] }}",
+              "type": "number"
+            },
+            {
+              "id": "55a6a090-02fc-40ab-8565-56f5ba3f5345",
+              "name": "Participantes",
+              "value": "={{ JSON.parse(JSON.stringify($json.Participantes.map(nome => $json.mapa_usuarios[nome]).filter(id => id))) }}",
+              "type": "array"
+            },
+            {
+              "id": "be8c15e3-54bb-4454-a3f3-df90b524a903",
+              "name": "Observadores",
+              "value": "={{ JSON.parse(JSON.stringify($json.Observadores.map(nome => $json.mapa_usuarios[nome]).filter(id => id))) }}",
+              "type": "array"
+            },
+            {
+              "id": "1b80080c-a909-41a5-8961-ca785e6732e6",
+              "name": "Prazo",
+              "value": "={{ $json.Prazo }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": false
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4048,
+        -288
+      ],
+      "id": "6b5891e2-6572-4edc-9b06-4807cf6ac629",
+      "name": "Dados para o bitrix"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4fb09419-dc74-41d8-9696-726d6c29988b",
+              "name": "mapa_usuarios",
+              "value": "{\n  \"Lucas\": 1621,\n  \"Margley\": 8737,\n  \"Yulle\": 8739,\n  \"Pricila\": 8741,\n  \"Érika\": 8743,\n  \"João\": 11251,\n  \"Fabiola\": 17,\n  \"Alex\": 1,\n  \"Igor\": 15,\n  \"José\": 8731,\n  \"Daniel\": 10695\n}\n",
+              "type": "object"
+            },
+            {
+              "id": "aeaa225a-4d4d-472c-aac5-b181baad36d0",
+              "name": "Nome da tarefa",
+              "value": "={{ $('Code in Python (Beta)').item.json.dados.dados_tarefa.nome_da_tarefa }}",
+              "type": "string"
+            },
+            {
+              "id": "7eddf10e-20f6-4ecc-83c7-5d6363a5b339",
+              "name": "Descrição da tarefa",
+              "value": "={{ $('Code in Python (Beta)').item.json.dados.dados_tarefa.descricao }}",
+              "type": "string"
+            },
+            {
+              "id": "a766672f-8868-44bc-8814-f568863b79fd",
+              "name": "Grupo",
+              "value": "={{ $('Code in Python (Beta)').item.json.dados.dados_tarefa.grupo }}",
+              "type": "string"
+            },
+            {
+              "id": "d04959f2-27d1-4411-9614-58e9c31dd56c",
+              "name": "Criado por",
+              "value": "={{ $('Code in Python (Beta)').item.json.dados.dados_tarefa.criado_por }}",
+              "type": "string"
+            },
+            {
+              "id": "2b4ec8bd-27c7-44fd-b180-9c9e01af5fe1",
+              "name": "Responsável",
+              "value": "={{ $('Code in Python (Beta)').item.json.dados.dados_tarefa.responsavel }}",
+              "type": "string"
+            },
+            {
+              "id": "bad84035-35c5-47b4-9963-8f5b2c3ac71e",
+              "name": "Participantes",
+              "value": "={{ $('Code in Python (Beta)').item.json.dados.dados_tarefa.participantes }}",
+              "type": "array"
+            },
+            {
+              "id": "50a13735-6ea8-48cc-9d1a-0bbeb20888af",
+              "name": "Observadores",
+              "value": "={{ $('Code in Python (Beta)').item.json.dados.dados_tarefa.observadores }}",
+              "type": "array"
+            },
+            {
+              "id": "b4f4da90-6ccd-4d4e-af78-688e7a2ca735",
+              "name": "Prazo",
+              "value": "={{ $('Code in Python (Beta)').item.json.dados.prazo }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3760,
+        -288
+      ],
+      "id": "7f2a43f0-cbe7-4c3a-bad5-cb575f859a1e",
+      "name": "Organização dos dados 2",
+      "alwaysOutputData": false,
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mdrepresentacoes.bitrix24.com.br/rest/1621/jjbltzqkihxgot8n/tasks.task.add",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "fields[TITLE]",
+              "value": "={{ $json['Nome da tarefa'] }}"
+            },
+            {
+              "name": "fields[DESCRIPTION]",
+              "value": "={{ $json['Descrição da tarefa'] }}"
+            },
+            {
+              "name": "fields[RESPONSIBLE_ID]",
+              "value": "={{ $json['Responsável'] }}"
+            },
+            {
+              "name": "fields[GROUP_ID]",
+              "value": "={{ $json.Grupo }}"
+            },
+            {
+              "name": "fields[ACCOMPLICES]",
+              "value": "={{ $json.Participantes }}"
+            },
+            {
+              "name": "fields[AUDITORS]",
+              "value": "={{ $json.Observadores }}"
+            },
+            {
+              "name": "fields[DEADLINE]",
+              "value": "={{ $json.Prazo }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        4480,
+        -288
+      ],
+      "id": "cc2b3c7a-ff88-44f4-94dc-9616c0706ec0",
+      "name": "Criação da task"
+    }
+  ],
+  "pinData": {
+    "Recebimento de mensagens": [
+      {
+        "json": {
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-agent": "WAHA/2025.11.2",
+            "x-webhook-request-id": "01KCS77S5NSJKY6QAC3CYSNFP6",
+            "x-webhook-timestamp": "1766078014645",
+            "content-length": "3106",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "host": "host.docker.internal:5678",
+            "connection": "keep-alive"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "id": "evt_01kcs77s5mawhekz95bqyrhp8n",
+            "timestamp": 1766078014645,
+            "event": "message",
+            "session": "default",
+            "metadata": {},
+            "me": {
+              "id": "558496351987@c.us",
+              "pushName": "MD Representações",
+              "lid": "160868553752807@lid",
+              "jid": "558496351987:25@s.whatsapp.net"
+            },
+            "payload": {
+              "id": "false_558491029054@c.us_3EB059C9CCC3265D73AB0B",
+              "timestamp": 1766078013,
+              "from": "558491029054@c.us",
+              "fromMe": false,
+              "source": "app",
+              "body": "Crie uma tarefa para um orçamento no nome do Hermes condomínio de 800 metros quadrados de piso Elizabeth onde José é o responsável, participantes são Érika e Daniel e o prazo deve ser amanhã",
+              "to": null,
+              "participant": null,
+              "hasMedia": false,
+              "media": null,
+              "ack": 2,
+              "location": null,
+              "vCards": null,
+              "ackName": "DEVICE",
+              "replyTo": null,
+              "_data": {
+                "Info": {
+                  "Chat": "558491029054@s.whatsapp.net",
+                  "Sender": "558491029054:66@s.whatsapp.net",
+                  "IsFromMe": false,
+                  "IsGroup": false,
+                  "AddressingMode": "",
+                  "SenderAlt": "43297615687827:66@lid",
+                  "RecipientAlt": "",
+                  "BroadcastListOwner": "",
+                  "BroadcastRecipients": null,
+                  "ID": "3EB059C9CCC3265D73AB0B",
+                  "ServerID": 0,
+                  "Type": "text",
+                  "PushName": "Lucas",
+                  "Timestamp": "2025-12-18T17:13:33Z",
+                  "Category": "",
+                  "Multicast": false,
+                  "MediaType": "",
+                  "Edit": "",
+                  "MsgBotInfo": {
+                    "EditType": "",
+                    "EditTargetID": "",
+                    "EditSenderTimestampMS": "0001-01-01T00:00:00Z"
+                  },
+                  "MsgMetaInfo": {
+                    "TargetID": "",
+                    "TargetSender": "",
+                    "TargetChat": "",
+                    "DeprecatedLIDSession": null,
+                    "ThreadMessageID": "",
+                    "ThreadMessageSenderJID": ""
+                  },
+                  "VerifiedName": null,
+                  "DeviceSentMeta": null
+                },
+                "Message": {
+                  "conversation": "Crie uma tarefa para um orçamento no nome do Hermes condomínio de 800 metros quadrados de piso Elizabeth onde José é o responsável, participantes são Érika e Daniel e o prazo deve ser amanhã",
+                  "messageContextInfo": {
+                    "deviceListMetadata": {
+                      "senderKeyHash": "Lo5D8fvroNwG2g==",
+                      "senderTimestamp": 1765828070,
+                      "senderAccountType": 0,
+                      "receiverAccountType": 0,
+                      "recipientKeyHash": "TuJH+JE5l3OLTQ==",
+                      "recipientTimestamp": 1766060996
+                    },
+                    "deviceListMetadataVersion": 2,
+                    "messageSecret": "D8WMUkPFuW0MqmcafMcLReMjJB2Zcfb8KrdjvRd7Ua8=",
+                    "limitSharingV2": {
+                      "sharingLimited": false,
+                      "trigger": 0,
+                      "limitSharingSettingTimestamp": 0,
+                      "initiatedByMe": false
+                    }
+                  }
+                },
+                "IsEphemeral": false,
+                "IsViewOnce": false,
+                "IsViewOnceV2": false,
+                "IsViewOnceV2Extension": false,
+                "IsDocumentWithCaption": false,
+                "IsLottieSticker": false,
+                "IsBotInvoke": false,
+                "IsEdit": false,
+                "SourceWebMsg": null,
+                "UnavailableRequestID": "",
+                "RetryCount": 0,
+                "NewsletterMeta": null,
+                "RawMessage": {
+                  "conversation": "Crie uma tarefa para um orçamento no nome do Hermes condomínio de 800 metros quadrados de piso Elizabeth onde José é o responsável, participantes são Érika e Daniel e o prazo deve ser amanhã",
+                  "messageContextInfo": {
+                    "deviceListMetadata": {
+                      "senderKeyHash": "Lo5D8fvroNwG2g==",
+                      "senderTimestamp": 1765828070,
+                      "senderAccountType": 0,
+                      "receiverAccountType": 0,
+                      "recipientKeyHash": "TuJH+JE5l3OLTQ==",
+                      "recipientTimestamp": 1766060996
+                    },
+                    "deviceListMetadataVersion": 2,
+                    "messageSecret": "D8WMUkPFuW0MqmcafMcLReMjJB2Zcfb8KrdjvRd7Ua8=",
+                    "limitSharingV2": {
+                      "sharingLimited": false,
+                      "trigger": 0,
+                      "limitSharingSettingTimestamp": 0,
+                      "initiatedByMe": false
+                    }
+                  }
+                },
+                "Status": 3
+              }
+            },
+            "environment": {
+              "version": "2025.11.2",
+              "engine": "GOWS",
+              "tier": "CORE",
+              "browser": null
+            }
+          },
+          "webhookUrl": "http://host.docker.internal:5678/webhook/8839c6bf-e3cd-49b1-9216-6084e9275e8a",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "É grupo?": {
+      "main": [
+        [
+          {
+            "node": "Organização dos dados 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recebimento de mensagens": {
+      "main": [
+        [
+          {
+            "node": "É grupo?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "mensagem texto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "mensagem imagem",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "mensagem aúdio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "mensagem pdf",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Seen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "mensagem texto": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "mensagem imagem": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze an image": {
+      "main": [
+        [
+          {
+            "node": "Descrição da imagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Analyze an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtro": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "mensagem aúdio": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "mensagem pdf": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Analyze document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze document": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Send Seen": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code in Python (Beta)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in Python (Beta)": {
+      "main": [
+        [
+          {
+            "node": "Pode criar a tarefa?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pode criar a tarefa?": {
+      "main": [
+        [
+          {
+            "node": "Marcar como lido",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Marcar como lido1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Marcar como lido": {
+      "main": [
+        [
+          {
+            "node": "Msg de resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Msg de resposta": {
+      "main": [
+        [
+          {
+            "node": "Msg de pergunta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Marcar como lido1": {
+      "main": [
+        [
+          {
+            "node": "Msg de resposta1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Msg de resposta1": {
+      "main": [
+        [
+          {
+            "node": "Organização dos dados 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Descrição da imagem": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Organização dos dados 1": {
+      "main": [
+        [
+          {
+            "node": "Filtro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados para o bitrix": {
+      "main": [
+        [
+          {
+            "node": "Criação da task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Organização dos dados 2": {
+      "main": [
+        [
+          {
+            "node": "Dados para o bitrix",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3344e8aa-8eb5-4352-a59c-130b05d44dda",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "02b60b6cc955c8e64f7f791336e62988ee75f38958bc52bbd8771d731ababb7a"
+  },
+  "id": "IKtE10608YtDvEkl",
+  "tags": []
+}
