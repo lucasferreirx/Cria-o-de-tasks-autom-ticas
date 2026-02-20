@@ -1,0 +1,4511 @@
+{
+  "name": "[MD] Criação de cards do Wpp para o Bitrix",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "evolution-mdrepres",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1728,
+        -1408
+      ],
+      "id": "bfadd0b7-99d9-4933-9917-ed5d73067a93",
+      "name": "Webhook",
+      "webhookId": "ee40db27-b328-4243-a1fa-fbcd7bec3655"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9bbbfbea-9ee2-45c5-bcf0-5b08af961e18",
+              "name": "instance",
+              "value": "={{ $json.body.instance }}",
+              "type": "string"
+            },
+            {
+              "id": "a00de284-45a2-40b1-8270-eb87b8bc9a33",
+              "name": "remoteJid",
+              "value": "={{ $json.body.data.key.remoteJid }}",
+              "type": "string"
+            },
+            {
+              "id": "0cd2a97a-52ad-443e-a4a0-0f6517632240",
+              "name": "id",
+              "value": "={{ $json.body.data.key.id }}",
+              "type": "string"
+            },
+            {
+              "id": "0e9ae63f-08d3-45ce-a5f1-534063f7cadb",
+              "name": "fromMe",
+              "value": "={{ $json.body.data.key.fromMe }}",
+              "type": "boolean"
+            },
+            {
+              "id": "2d43a208-b2b5-4ac0-b96e-cc0beb88123f",
+              "name": "conversation",
+              "value": "={{ $json.body.data.message.conversation }}",
+              "type": "string"
+            },
+            {
+              "id": "95e069d5-95ea-4095-804d-384a2587962e",
+              "name": "messageType",
+              "value": "={{ $json.body.data.messageType }}",
+              "type": "string"
+            },
+            {
+              "id": "8ca51751-e655-410f-878a-883ee25e94a2",
+              "name": "pushName",
+              "value": "={{ $json.body.data.pushName }}",
+              "type": "string"
+            },
+            {
+              "id": "cc40bd3f-6e22-4612-87a5-a4a9f0d0876f",
+              "name": "base64",
+              "value": "={{ $json.body.data.message.base64 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1504,
+        -1408
+      ],
+      "id": "d29b99ba-49c4-4128-87de-c5a352251015",
+      "name": "Organização de dados"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "30cc8816-2ffc-4a0a-aef8-e88a9065f19f",
+              "leftValue": "={{ $json.remoteJid }}",
+              "rightValue": "8491029054",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "f2fed79f-2903-47fe-8f07-e8e5afd9350f",
+              "leftValue": "={{ $json.remoteJid }}",
+              "rightValue": "8494032113",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "ba431024-f466-4486-ac69-e7a3b992c9e2",
+              "leftValue": "={{ $json.remoteJid }}",
+              "rightValue": "8494818515",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "0d5a8cec-47c7-4bb5-a09b-5c22debc6d48",
+              "leftValue": "={{ $json.remoteJid }}",
+              "rightValue": "8498313072",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -1280,
+        -1408
+      ],
+      "id": "3eebfa6a-4ea1-496c-ac9d-ac82a89f97f8",
+      "name": "Filtrar por números"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.messageType }}",
+                    "rightValue": "conversation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "80dc8245-80d9-4fbd-9502-e5bb8fc2c890"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "texto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ad80787e-a96b-4cd4-8eb9-d8ed96a8a28b",
+                    "leftValue": "={{ $json.messageType }}",
+                    "rightValue": "imageMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "imagem"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1f9ff31d-98b4-4925-ac6d-5892dd3d0a58",
+                    "leftValue": "={{ $json.messageType }}",
+                    "rightValue": "audioMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "aúdio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e6ac0be1-1aa7-471d-bc32-1f4daaeaa8df",
+                    "leftValue": "={{ $json.messageType }}",
+                    "rightValue": "documentMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "pdf"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b9043ff0-af0a-4945-b675-1a805ee74c0e",
+                    "leftValue": "={{ $json.messageType }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "outros"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -1056,
+        -1456
+      ],
+      "id": "51756d81-1b5c-4170-b610-bde2b73f29e5",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2304,
+        -1552
+      ],
+      "id": "59f23ef0-d08b-42ae-865c-999ed99d9596",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "15e6f85d-1478-493e-aa15-123f741e45bd",
+              "name": "url imagem",
+              "value": "={{ $('Webhook').item.json.body.data.message.imageMessage.url }}",
+              "type": "string"
+            },
+            {
+              "id": "a027e0c8-225e-4313-9669-d2db5fa35a50",
+              "name": "legenda imagem",
+              "value": "={{ $('Webhook').item.json.body.data.message.imageMessage.caption }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -832,
+        -1616
+      ],
+      "id": "b4cd7770-7d60-4f00-8cf8-7e697744fd48",
+      "name": "mensagem imagem"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec288bbf-73fc-4a6e-a7f9-4deb7b12ed95",
+              "name": "msg final",
+              "value": "={{ $json.conversation }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        -1856
+      ],
+      "id": "771406e3-aafc-4128-a82a-b61458eaf50c",
+      "name": "mensagem texto"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "text": "=Analise a imagem e dê detalhes do que tem nela. Se o usuário enviar uma foto de algum produto, tente verificar se possui o nome dele na imagem. Se o usuário enviar uma relação de nomes de produtos para orçamento, analise e descreva bem cada item por categoria.\n\nO usuário que enviou a imagem disse junto: {{ $('mensagem imagem').item.json['legenda imagem'] }}",
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        288,
+        -1616
+      ],
+      "id": "bea8df2d-e112-4e27-a97c-fc0e2686e49d",
+      "name": "Analyze an image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "aViGL4rDfar5T7E1",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "355941df-932b-48d8-bee5-c0b7fc1ff374",
+              "name": "arquivo aúdio",
+              "value": "={{ $('Webhook').item.json.body.data.message.audioMessage.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        -1408
+      ],
+      "id": "d9618932-1225-46ab-bec5-a9c374e377d7",
+      "name": "mensagem aúdio"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1632,
+        -1408
+      ],
+      "id": "28e10108-74f4-457d-98d4-74c241158253",
+      "name": "Transcribe a recording",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "aViGL4rDfar5T7E1",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "322ec29a-464b-4f6f-b10a-bd0f7a5d63d3",
+              "name": "arquivo pdf",
+              "value": "={{ $('Webhook').item.json.body.data.message.documentMessage.url }}",
+              "type": "string"
+            },
+            {
+              "id": "43b042d4-223a-46d0-9ee5-7d37674148ee",
+              "name": "título pdf",
+              "value": "={{ $('Webhook').item.json.body.data.message.documentMessage.title }}",
+              "type": "string"
+            },
+            {
+              "id": "30f05464-0e91-4921-8f91-5bc5e527d9b4",
+              "name": "legenda pdf",
+              "value": "={{ $('Webhook').item.json.body.data.message.documentMessage.caption }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -832,
+        -1168
+      ],
+      "id": "409b6560-a352-4126-a516-407a87d8be3b",
+      "name": "mensagem pdf"
+    },
+    {
+      "parameters": {
+        "resource": "document",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "text": "=Analise o pdf e dê detalhes do que tem nele. Se o usuário enviar uma foto de algum produto, tente verificar se possui o nome dele na imagem. Se o usuário enviar uma relação de nomes de produtos para orçamento, analise e descreva bem cada item por categoria.\n\nO arquivo possui o seguinte título: {{ $('mensagem pdf').item.json['título pdf'] }}\n\nO usuário que enviou a imagem disse junto na legenda: {{ $('mensagem pdf').item.json['legenda pdf'] }}",
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        288,
+        -1168
+      ],
+      "id": "b24b0afa-3e9c-4d3b-96b3-5613074e272e",
+      "name": "Analyze document",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "aViGL4rDfar5T7E1",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Organização de dados').item.json.remoteJid }}",
+        "sessionTTL": 3600,
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        3056,
+        -1552
+      ],
+      "id": "c7951be6-b1ef-41a1-9e37-2bfd8320c8c5",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "remoteJid": "={{ $('Organização de dados').item.json.remoteJid }}",
+        "messageText": "=Olá {{ $('Organização de dados').item.json.pushName }}! Tudo bem? Não consigo ler esse tipo de arquivo, por favor enviar novamente.",
+        "options_message": {
+          "delay": 3000,
+          "linkPreview": true
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -832,
+        -976
+      ],
+      "id": "409afcda-a91a-49b7-a73c-f89c1e519026",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.pode_criar }}",
+                    "rightValue": false,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "false",
+                      "singleValue": true
+                    },
+                    "id": "02cbed15-6932-4f2e-8c5e-5fb91e0775f2"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Não"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "4401edb1-1ea3-44d7-8d5f-8be74e163506",
+                    "leftValue": "={{ $json.pode_criar }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sim"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        6800,
+        -1616
+      ],
+      "id": "37522342-9d3c-49f2-b2e5-aa1411cbf897",
+      "name": "Pode criar a tarefa?"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "remoteJid": "={{ $('Organização de dados').item.json.remoteJid }}",
+        "messageText": "={{ $('Pode criar a tarefa?').item.json.dados.pergunta }}",
+        "options_message": {
+          "linkPreview": true
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        7024,
+        -1712
+      ],
+      "id": "427f3f8d-f4c2-44f2-8193-fa690a1b52f2",
+      "name": "Msg pergunta",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "remoteJid": "={{ $('Organização de dados').item.json.remoteJid }}",
+        "messageText": "={{ $('Tarefa ou negócio').item.json.dados.mensagem_usuario }}",
+        "options_message": {
+          "linkPreview": true
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        7920,
+        -1616
+      ],
+      "id": "2ac03ad8-6d56-4a3e-b29c-0cfd7aab2d27",
+      "name": "Msg resposta1",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "chat-api",
+        "operation": "get-media-base64",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "messageId": "={{ $('Organização de dados').item.json.id }}"
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        -1408
+      ],
+      "id": "96028fad-e483-4ee0-9487-3f20c7d7215b",
+      "name": "Obter m dia em base64",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data.base64",
+        "options": {
+          "mimeType": "audio/mpeg"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1408,
+        -1408
+      ],
+      "id": "13861296-0b0e-4116-ab9b-7119b018c47e",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data.base64",
+        "options": {
+          "mimeType": "image/jpeg"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        64,
+        -1616
+      ],
+      "id": "c41ddcff-23a7-47b8-be3c-a46a70506a11",
+      "name": "Convert to File1"
+    },
+    {
+      "parameters": {
+        "resource": "chat-api",
+        "operation": "get-media-base64",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "messageId": "={{ $('Organização de dados').item.json.id }}"
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        -1168
+      ],
+      "id": "419a0c3c-e64a-4d77-ad4a-f2e2ee4927d8",
+      "name": "Obter m dia em base65",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data.base64",
+        "options": {
+          "mimeType": "application/pdf"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        64,
+        -1168
+      ],
+      "id": "c745f5f5-ebc7-4900-b784-bc7a4c1d56e2",
+      "name": "Convert to File2"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Organização de dados').item.json.instance }} {{ $('Organização de dados').item.json.remoteJid }} block",
+        "value": "true",
+        "expire": true,
+        "ttl": 300
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2752,
+        -1664
+      ],
+      "id": "9d130d7a-49c3-4257-83d9-6ee75ccc4e66",
+      "name": "Chave block",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "isBlocked",
+        "key": "={{ $('Organização de dados').item.json.instance }} {{ $('Organização de dados').item.json.remoteJid }} block",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2752,
+        -1376
+      ],
+      "id": "02a41078-92f5-45f4-9f94-b084b0d50dc6",
+      "name": "Redis",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "db8bacb1-7efb-46ff-a5ad-3395f21259cd",
+              "leftValue": "={{ $json.isBlocked }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3040,
+        -1376
+      ],
+      "id": "edd6b16e-f347-4a93-80e2-46fdab1ca89a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "ai",
+              "message": "={{ $('Merge').item.json['msg final'] }}"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        2976,
+        -1776
+      ],
+      "id": "1e847a94-ceb9-479e-8bed-6f05a8ce6742",
+      "name": "Mensagens dos colaboradores"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "user",
+              "message": "={{ $('Merge').item.json['msg final'] }}"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        3328,
+        -1472
+      ],
+      "id": "df1c28cf-0f3e-4d07-8b80-4bcd9db2a88a",
+      "name": "Mensagens dos clientes"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Organização de dados').item.json.instance }} {{ $('Organização de dados').item.json.remoteJid }} temp",
+        "messageData": "={{ $('Merge').item.json['msg final'] }}",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3392,
+        -1280
+      ],
+      "id": "b3b6790c-372b-4633-9a9d-6dc6238469c6",
+      "name": "Redis1",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3680,
+        -1280
+      ],
+      "id": "09c8dc08-2b16-4164-9a63-1b0322ee871f",
+      "name": "Wait",
+      "webhookId": "125437a3-6190-4850-9546-e0d77d776ef8"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "messages",
+        "key": "={{ $('Organização de dados').item.json.instance }} {{ $('Organização de dados').item.json.remoteJid }} temp",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3904,
+        -1280
+      ],
+      "id": "001e29ed-8876-47d5-90e6-2d938d8be948",
+      "name": "Redis2",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "89969736-9d78-4448-b856-7fc0783961e1",
+              "leftValue": "={{ $json.messages.last() }}",
+              "rightValue": "={{ $('Merge').item.json['msg final'] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4128,
+        -1280
+      ],
+      "id": "5723af42-f0c6-4c30-84f5-06f6c632c708",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Organização de dados').item.json.instance }} {{ $('Organização de dados').item.json.remoteJid }} temp"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        4352,
+        -1280
+      ],
+      "id": "ae3ec62c-a1d4-4526-a6cf-1f992fa742f3",
+      "name": "Redis3",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "49411f57-358b-4f95-8a48-5a8fac6bf124",
+              "name": "message",
+              "value": "={{ $('Redis2').item.json.messages.join(\" \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4800,
+        -1280
+      ],
+      "id": "ab173db8-9e65-4699-8ee1-2568ea476177",
+      "name": "Mensagem final para o agente"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node (JavaScript) - Run Once for All Items\n\nfunction proximoDiaUtil(dateObj) {\n  // dateObj é um Date (com hora ignorada)\n  // 0=dom, 6=sab\n  while (dateObj.getDay() === 0 || dateObj.getDay() === 6) {\n    dateObj.setDate(dateObj.getDate() + 1);\n  }\n  return dateObj;\n}\n\nfunction calcularPrazo(now) {\n  const due = new Date(now);\n\n  // antes de 12:00 -> hoje 18:00\n  if (now.getHours() < 12) {\n    due.setHours(18, 0, 0, 0);\n    return due.toISOString();\n  }\n\n  // após 12:00 -> próximo dia útil 12:00\n  const next = new Date(now);\n  next.setDate(next.getDate() + 1);\n  next.setHours(0, 0, 0, 0);\n\n  proximoDiaUtil(next);\n  next.setHours(12, 0, 0, 0);\n\n  return next.toISOString();\n}\n\nfunction limparTexto(rawText) {\n  // Remove ```json, ``` e também um \"json\" solto no início\n  let cleaned = String(rawText);\n\n  cleaned = cleaned.replace(/```(?:json)?/gi, \"\").replace(/```/g, \"\");\n  cleaned = cleaned.trim();\n  cleaned = cleaned.replace(/^\\s*json\\s*/i, \"\").trim();\n\n  return cleaned;\n}\n\nconst out = [];\n\nfor (const item of $input.all()) {\n  const rawText = item.json?.output ?? \"\";\n\n  if (!rawText) {\n    out.push({\n      json: { ok: false, error: \"Campo 'output' vazio\", raw: item.json },\n    });\n    continue;\n  }\n\n  const cleaned = limparTexto(rawText);\n\n  try {\n    const parsed = JSON.parse(cleaned);\n\n    // Só calcula prazo quando pode_criar = true e prazo vazio\n    if (Boolean(parsed?.pode_criar)) {\n      const prazo = parsed?.prazo;\n      const prazoVazio =\n        prazo === null ||\n        prazo === undefined ||\n        (typeof prazo === \"string\" && prazo.trim() === \"\");\n\n      if (prazoVazio) {\n        parsed.prazo = calcularPrazo(new Date());\n      }\n    }\n\n    out.push({\n      json: {\n        ok: true,\n        pode_criar: Boolean(parsed?.pode_criar ?? false),\n        dados: parsed,\n      },\n    });\n  } catch (e) {\n    out.push({\n      json: { ok: false, error: String(e?.message ?? e), raw_text: rawText },\n    });\n  }\n}\n\nreturn out;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6352,
+        -1424
+      ],
+      "id": "837ade59-3951-4b16-b9df-f4ba346743d8",
+      "name": "Quebra de texto para JSON"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e05242e6-f6a6-44da-b6e4-d419146a4709",
+              "leftValue": "={{ $('Organização de dados').item.json.fromMe }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2528,
+        -1520
+      ],
+      "id": "5e4588d7-0a1d-452a-933a-d59953ea8542",
+      "name": "Foi eu que enviei a msg?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "12e38dd9-e9a3-4113-bf3a-83ff7c2aa22c",
+              "name": "msg final",
+              "value": "={{ \n  $('Analyze an image').item.json.content.parts[0].text \n  + \"\\n\\nID da imagem: \" \n  + $json.result.ID \n}}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2080,
+        -1616
+      ],
+      "id": "81b36131-0665-41a8-a941-2896cedfe5b9",
+      "name": "Descrição final da imagem"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "46c60aef-6b98-41db-8e0b-cc10b71e26ff",
+              "name": "msg final",
+              "value": "={{ $('Transcribe a recording').item.json.content.parts[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2080,
+        -1408
+      ],
+      "id": "4222b049-8f76-4cac-9e3d-35c5f39fd691",
+      "name": "Transcrição final do aúdio"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1ba50bce-8220-4cef-b352-278f52180cb8",
+              "name": "msg final",
+              "value": "={{ \n  $('Analyze document').item.json.content.parts[0].text \n  + \"\\n\\nID da imagem: \" \n  + $json.result.ID \n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2080,
+        -1168
+      ],
+      "id": "5bc3138e-2e17-477f-b73c-e9196c63d019",
+      "name": "Descrição final do pdf"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mdrepresentacoes.bitrix24.com.br/rest/1621/jjbltzqkihxgot8n/tasks.task.add",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "fields[TITLE]",
+              "value": "={{ $json['Nome da tarefa'] }}"
+            },
+            {
+              "name": "fields[DESCRIPTION]",
+              "value": "={{ $json['Descrição da tarefa'] }}"
+            },
+            {
+              "name": "fields[RESPONSIBLE_ID]",
+              "value": "={{ $json['Responsável'] }}"
+            },
+            {
+              "name": "fields[GROUP_ID]",
+              "value": "={{ $json.Grupo }}"
+            },
+            {
+              "name": "fields[CREATED_BY]",
+              "value": "={{ $json['Criado por'] }}"
+            },
+            {
+              "name": "fields[ACCOMPLICES]",
+              "value": "={{ $json.Participantes }}"
+            },
+            {
+              "name": "fields[AUDITORS]",
+              "value": "={{ $json.Observadores }}"
+            },
+            {
+              "name": "fields[DEADLINE]",
+              "value": "={{ $json.Prazo }}"
+            },
+            {
+              "name": "fields[UF_TASK_WEBDAV_FILES][]",
+              "value": "={{ $json['ID imagem'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        7696,
+        -1616
+      ],
+      "id": "d1edbbf6-4573-40c7-80b3-1a65713c7e4e",
+      "name": "Criação da task1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5187a99e-f718-4cbf-9d64-cc30e1283593",
+              "name": "Nome da tarefa",
+              "value": "={{ $('Organização dos dados 3').item.json['Nome da tarefa'] }}",
+              "type": "string"
+            },
+            {
+              "id": "14291dfb-26ac-4958-95ff-ff28053355a9",
+              "name": "Descrição da tarefa",
+              "value": "={{ $('Organização dos dados 3').item.json['Descrição da tarefa'] }}",
+              "type": "string"
+            },
+            {
+              "id": "58e38328-7762-4fc4-b75c-e4a8c276c3c3",
+              "name": "Grupo",
+              "value": 11,
+              "type": "number"
+            },
+            {
+              "id": "f0771fca-d4e6-4577-8f1c-834c12d4e293",
+              "name": "Criado por",
+              "value": "={{ $json.mapa_usuarios?.[$json[\"Criado por\"]] ?? $json.mapa_usuarios?.[($json[\"Criado por\"] || \"\").normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g,\"\")] }}",
+              "type": "string"
+            },
+            {
+              "id": "844024f7-93ad-4da0-bb17-737c86139a3a",
+              "name": "Responsável",
+              "value": "={{ $json.mapa_usuarios[$json['Responsável']] }}",
+              "type": "number"
+            },
+            {
+              "id": "55a6a090-02fc-40ab-8565-56f5ba3f5345",
+              "name": "Participantes",
+              "value": "={{ JSON.parse(JSON.stringify($json.Participantes.map(nome => $json.mapa_usuarios[nome]).filter(id => id))) }}",
+              "type": "array"
+            },
+            {
+              "id": "be8c15e3-54bb-4454-a3f3-df90b524a903",
+              "name": "Observadores",
+              "value": "={{ JSON.parse(JSON.stringify($json.Observadores.map(nome => $json.mapa_usuarios[nome]).filter(id => id))) }}",
+              "type": "array"
+            },
+            {
+              "id": "1b80080c-a909-41a5-8961-ca785e6732e6",
+              "name": "Prazo",
+              "value": "={{ $json.Prazo }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": false
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        7472,
+        -1424
+      ],
+      "id": "93a16d40-3c66-486d-8c65-0ff5b90f04fa",
+      "name": "Dados para o bitrix2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4fb09419-dc74-41d8-9696-726d6c29988b",
+              "name": "mapa_usuarios",
+              "value": "{\n  \"Lucas\": 1621,\n  \"Lucas Ferreira\": 1621,\n  \"Margley\": 8737,\n  \"Yulle\": 8739,\n  \"Pricila\": 8741,\n  \"Priscila\": 8741,\n  \"Érika\": 8743,\n  \"Erika\": 8743,\n  \"Érika Marques\": 8743,\n  \"Erika Marques\": 8743,\n  \"João\": 11251,\n  \"Fabiola\": 17,\n  \"Alex\": 1,\n  \"Alex - MD Representacoes Ltda\": 1,\n  \"Igor\": 15,\n  \"José\": 8731,\n  \"Jose\": 8731,\n  \"José Artur Oliveira\": 8731,\n  \"Jose Artur Oliveira\": 8731,\n  \"Daniel\": 10695,\n  \"Daniel Nóbrega\": 10695\n}",
+              "type": "object"
+            },
+            {
+              "id": "aeaa225a-4d4d-472c-aac5-b181baad36d0",
+              "name": "Nome da tarefa",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.nome_da_tarefa }}",
+              "type": "string"
+            },
+            {
+              "id": "7eddf10e-20f6-4ecc-83c7-5d6363a5b339",
+              "name": "Descrição da tarefa",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.descricao }}",
+              "type": "string"
+            },
+            {
+              "id": "a766672f-8868-44bc-8814-f568863b79fd",
+              "name": "Grupo",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.grupo }}",
+              "type": "string"
+            },
+            {
+              "id": "d04959f2-27d1-4411-9614-58e9c31dd56c",
+              "name": "Criado por",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.criado_por }}",
+              "type": "string"
+            },
+            {
+              "id": "2b4ec8bd-27c7-44fd-b180-9c9e01af5fe1",
+              "name": "Responsável",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.responsavel }}",
+              "type": "string"
+            },
+            {
+              "id": "bad84035-35c5-47b4-9963-8f5b2c3ac71e",
+              "name": "Participantes",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.participantes }}",
+              "type": "array"
+            },
+            {
+              "id": "50a13735-6ea8-48cc-9d1a-0bbeb20888af",
+              "name": "Observadores",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.observadores }}",
+              "type": "array"
+            },
+            {
+              "id": "b4f4da90-6ccd-4d4e-af78-688e7a2ca735",
+              "name": "Prazo",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.prazo }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        7248,
+        -1424
+      ],
+      "id": "33e48b94-066d-4081-8d66-f4147024a483",
+      "name": "Organização dos dados 3",
+      "alwaysOutputData": false,
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mdrepresentacoes.bitrix24.com.br/rest/1621/jjbltzqkihxgot8n/tasks.task.add",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "fields[TITLE]",
+              "value": "={{ $json['Nome da tarefa'] }}"
+            },
+            {
+              "name": "fields[DESCRIPTION]",
+              "value": "={{ $json['Descrição da tarefa'] }}"
+            },
+            {
+              "name": "fields[RESPONSIBLE_ID]",
+              "value": "={{ $json['Responsável'] }}"
+            },
+            {
+              "name": "fields[GROUP_ID]",
+              "value": "={{ $json.Grupo }}"
+            },
+            {
+              "name": "fields[ACCOMPLICES]",
+              "value": "={{ $json.Participantes }}"
+            },
+            {
+              "name": "fields[AUDITORS]",
+              "value": "={{ $json.Observadores }}"
+            },
+            {
+              "name": "fields[DEADLINE]",
+              "value": "={{ $json.Prazo }}"
+            },
+            {
+              "name": "fields[CREATED_BY]",
+              "value": "={{ $json['Criado por'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        7696,
+        -1424
+      ],
+      "id": "a8e1ff97-9fd7-4a30-acc2-dab0bc49b7ef",
+      "name": "Criação da task2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5187a99e-f718-4cbf-9d64-cc30e1283593",
+              "name": "Nome da tarefa",
+              "value": "={{ $('Organização dos dados 1').item.json['Nome da tarefa'] }}",
+              "type": "string"
+            },
+            {
+              "id": "14291dfb-26ac-4958-95ff-ff28053355a9",
+              "name": "Descrição da tarefa",
+              "value": "={{ $('Organização dos dados 1').item.json['Descrição da tarefa'] }}",
+              "type": "string"
+            },
+            {
+              "id": "58e38328-7762-4fc4-b75c-e4a8c276c3c3",
+              "name": "Grupo",
+              "value": 11,
+              "type": "number"
+            },
+            {
+              "id": "f0771fca-d4e6-4577-8f1c-834c12d4e293",
+              "name": "Criado por",
+              "value": "={{ $json.mapa_usuarios?.[$json[\"Criado por\"]] ?? $json.mapa_usuarios?.[($json[\"Criado por\"] || \"\").normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g,\"\")] }}",
+              "type": "string"
+            },
+            {
+              "id": "844024f7-93ad-4da0-bb17-737c86139a3a",
+              "name": "Responsável",
+              "value": "={{ $json.mapa_usuarios?.[$json[\"Responsável\"]] ?? $json.mapa_usuarios?.[($json[\"Responsável\"] || \"\").normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g,\"\")] }}",
+              "type": "string"
+            },
+            {
+              "id": "55a6a090-02fc-40ab-8565-56f5ba3f5345",
+              "name": "Participantes",
+              "value": "={{ JSON.parse(JSON.stringify($json.Participantes.map(nome => $json.mapa_usuarios[nome]).filter(id => id))) }}",
+              "type": "array"
+            },
+            {
+              "id": "be8c15e3-54bb-4454-a3f3-df90b524a903",
+              "name": "Observadores",
+              "value": "={{ JSON.parse(JSON.stringify($json.Observadores.map(nome => $json.mapa_usuarios[nome]).filter(id => id))) }}",
+              "type": "array"
+            },
+            {
+              "id": "1b80080c-a909-41a5-8961-ca785e6732e6",
+              "name": "Prazo",
+              "value": "={{ $json.Prazo }}",
+              "type": "string"
+            },
+            {
+              "id": "fe7c02db-efd4-438a-9cc4-be07881bb9e6",
+              "name": "ID imagem",
+              "value": "={{ 'n' + $json['ID imagem'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": false
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        7472,
+        -1616
+      ],
+      "id": "f112f158-08b5-4d26-9ded-d92f93dee543",
+      "name": "Dados para o bitrix3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4fb09419-dc74-41d8-9696-726d6c29988b",
+              "name": "mapa_usuarios",
+              "value": "{\n  \"Lucas\": 1621,\n  \"Lucas Ferreira\": 1621,\n  \"Margley\": 8737,\n  \"Yulle\": 8739,\n  \"Pricila\": 8741,\n  \"Priscila\": 8741,\n  \"Érika\": 8743,\n  \"Erika\": 8743,\n  \"Érika Marques\": 8743,\n  \"Erika Marques\": 8743,\n  \"João\": 11251,\n  \"Fabiola\": 17,\n  \"Alex\": 1,\n  \"Alex - MD Representacoes Ltda\": 1,\n  \"Igor\": 15,\n  \"José\": 8731,\n  \"Jose\": 8731,\n  \"José Artur Oliveira\": 8731,\n  \"Jose Artur Oliveira\": 8731,\n  \"Daniel\": 10695,\n  \"Daniel Nóbrega\": 10695\n}",
+              "type": "object"
+            },
+            {
+              "id": "aeaa225a-4d4d-472c-aac5-b181baad36d0",
+              "name": "Nome da tarefa",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.nome_da_tarefa }}",
+              "type": "string"
+            },
+            {
+              "id": "7eddf10e-20f6-4ecc-83c7-5d6363a5b339",
+              "name": "Descrição da tarefa",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.descricao }}",
+              "type": "string"
+            },
+            {
+              "id": "a766672f-8868-44bc-8814-f568863b79fd",
+              "name": "Grupo",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.grupo }}",
+              "type": "string"
+            },
+            {
+              "id": "d04959f2-27d1-4411-9614-58e9c31dd56c",
+              "name": "Criado por",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.criado_por }}",
+              "type": "string"
+            },
+            {
+              "id": "2b4ec8bd-27c7-44fd-b180-9c9e01af5fe1",
+              "name": "Responsável",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.responsavel }}",
+              "type": "string"
+            },
+            {
+              "id": "bad84035-35c5-47b4-9963-8f5b2c3ac71e",
+              "name": "Participantes",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.participantes }}",
+              "type": "array"
+            },
+            {
+              "id": "50a13735-6ea8-48cc-9d1a-0bbeb20888af",
+              "name": "Observadores",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.observadores }}",
+              "type": "array"
+            },
+            {
+              "id": "b4f4da90-6ccd-4d4e-af78-688e7a2ca735",
+              "name": "Prazo",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.prazo }}",
+              "type": "string"
+            },
+            {
+              "id": "05cfa2e9-2588-49b9-b729-b204ba4f3d9a",
+              "name": "ID imagem",
+              "value": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.ID }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        7248,
+        -1616
+      ],
+      "id": "bc4f0368-a1d8-4be7-8404-cf3a1b7cbc90",
+      "name": "Organização dos dados 1",
+      "alwaysOutputData": false,
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.ID[0] }}",
+                    "rightValue": "imageMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "52b05a63-06bc-4481-8807-e096da8f507f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Imagem/PDF"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "9eaa53d4-8347-4942-af3a-eafbdf3bf498",
+                    "leftValue": "={{ $('Pode criar a tarefa?').item.json.dados.dados_tarefa.ID[0] }}",
+                    "rightValue": "conversation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notExists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Texto/Audio"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        7024,
+        -1520
+      ],
+      "id": "c4fd6e5c-b14e-4050-b4fe-36c7a6c2cbb9",
+      "name": "A mensagem contém qual tipo de arquivo?"
+    },
+    {
+      "parameters": {
+        "resource": "chat-api",
+        "operation": "get-media-base64",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "messageId": "={{ $('Organização de dados').item.json.id }}"
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        512,
+        -1168
+      ],
+      "id": "0d994c2d-5844-46a0-a2e4-f4c47a68fbe2",
+      "name": "Obter m dia em base4",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data.base64",
+        "binaryPropertyName": "=data",
+        "options": {
+          "mimeType": "application/pdf"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        736,
+        -1168
+      ],
+      "id": "17291a86-d13c-4b53-a195-5def2228f27a",
+      "name": "Convert to File6"
+    },
+    {
+      "parameters": {
+        "resource": "chat-api",
+        "operation": "get-media-base64",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "messageId": "={{ $('Organização de dados').item.json.id }}"
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        -1168
+      ],
+      "id": "42b39885-5f22-4d26-a452-2a4dba2f0bd0",
+      "name": "Obter m dia em base5",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data.base64",
+        "options": {
+          "mimeType": "application/pdf"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1408,
+        -1168
+      ],
+      "id": "c0aec84d-bb74-4d7d-8c84-edac2f2d535e",
+      "name": "Convert to File7"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mdrepresentacoes.bitrix24.com.br/rest/1621/9kfczz5gzrzvdec5/disk.folder.uploadfile.json",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "id",
+              "value": "822593"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "=file",
+              "value": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        960,
+        -1168
+      ],
+      "id": "5cb7ed49-5f81-402e-ad95-3e1e0949a1e5",
+      "name": "Transforma o pdf em url do bitrix"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Transforma o pdf em url do bitrix').item.json.result.uploadUrl }}",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1856,
+        -1168
+      ],
+      "id": "152b86e8-7c82-410e-b125-b6fba15481ba",
+      "name": "Envia o pdf para o drive do bitrix"
+    },
+    {
+      "parameters": {
+        "jsCode": "const BIN_FIELD = 'data';\n\n// 1) Pega os 3 campos do Webhook (exatamente como você passou)\nconst remoteJid =\n  $(\"Webhook\").first().json?.body?.data?.key?.remoteJid ?? \"sem_remoteJid\";\n\nconst pushName =\n  $(\"Webhook\").first().json?.body?.data?.pushName ?? \"sem_pushName\";\n\nconst dateTime =\n  $(\"Webhook\").first().json?.body?.date_time ?? \"sem_date_time\";\n\n// 2) Sanitiza pra virar nome de arquivo seguro (Windows/Bitrix)\nfunction sanitizeFilename(str) {\n  return String(str)\n    .normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g, \"\") // remove acentos\n    .replace(/[\\/\\\\:\\*\\?\"<>\\|\\r\\n]+/g, \"_\")           // caracteres proibidos\n    .replace(/\\s+/g, \" \")                            // normaliza espaços\n    .trim()\n    .replace(/\\s/g, \"_\");                            // troca espaço por _\n}\n\n// 3) Ajusta o date_time pra não ter \":\" (se vier no formato com hora)\nfunction sanitizeDateTime(dt) {\n  // se vier vazio ou não-string\n  if (!dt || typeof dt !== \"string\") return \"sem_date_time\";\n\n  // Ex.: \"2025-12-31T12:00:00.000Z\" -> \"2025-12-31T12_00_00.000Z\"\n  // Ex.: \"2025-12-31 12:00:00\"      -> \"2025-12-31_12_00_00\"\n  return dt\n    .replace(/:/g, \"_\")\n    .replace(/\\s+/g, \"_\");\n}\n\n// 4) Descobre extensão a partir do mimeType do binário (mantém jpg/png/pdf)\nfunction inferExt(bin) {\n  const mime = (bin?.mimeType || \"\").toLowerCase();\n  if (mime.includes(\"jpeg\")) return \"jpg\";\n  if (mime.includes(\"png\")) return \"png\";\n  if (mime.includes(\"pdf\")) return \"pdf\";\n\n  // fallback: tenta usar extensão já existente\n  const fromFileName = (bin?.fileName || \"\").split(\".\").pop();\n  if (fromFileName && fromFileName.length <= 5) return fromFileName.toLowerCase();\n\n  const fromFileExt = (bin?.fileExtension || \"\");\n  if (fromFileExt) return String(fromFileExt).toLowerCase();\n\n  return \"bin\";\n}\n\n// 5) Nome final: remoteJid__pushName__date_time.ext\nconst base = `${remoteJid}__${pushName}__${sanitizeDateTime(dateTime)}`;\nlet safeBase = sanitizeFilename(base);\n\n// opcional: limita tamanho para evitar nomes enormes\nif (safeBase.length > 140) safeBase = safeBase.slice(0, 140);\n\nreturn items.map(item => {\n  if (!item.binary || !item.binary[BIN_FIELD]) return item;\n\n  const bin = item.binary[BIN_FIELD];\n  const ext = inferExt(bin);\n\n  bin.fileName = `${safeBase}.${ext}`;\n  bin.fileExtension = ext;\n\n  item.binary[BIN_FIELD] = bin;\n  return item;\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        -1168
+      ],
+      "id": "b0b8fc6b-24ef-4323-82da-f39ca3624139",
+      "name": "Mudança de nome do arquivo1"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "=msgs:{{ $json.chatKey }}",
+        "messageData": "={{ $('Redis2').item.json.messages.join(\" \") }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        4576,
+        -1280
+      ],
+      "id": "5c6671cc-6248-4027-9015-0b7344278b1f",
+      "name": "Redis5",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data.base64",
+        "binaryPropertyName": "=data",
+        "options": {
+          "mimeType": "image/jpeg"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        736,
+        -1616
+      ],
+      "id": "b642ba56-96da-4ba2-a4e8-e107ee2fe8da",
+      "name": "Convert to File8"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data.base64",
+        "options": {
+          "mimeType": "image/jpeg"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1408,
+        -1616
+      ],
+      "id": "ad7eaf5d-8d60-401d-9bc5-87b63b260b09",
+      "name": "Convert to File9"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mdrepresentacoes.bitrix24.com.br/rest/1621/9kfczz5gzrzvdec5/disk.folder.uploadfile.json",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "id",
+              "value": "822593"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "=file",
+              "value": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        960,
+        -1616
+      ],
+      "id": "74a2ac67-92bb-49d8-8bf0-67c157da31b1",
+      "name": "Transforma a imagem em url do bitrix"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Transforma a imagem em url do bitrix').item.json.result.uploadUrl }}",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1856,
+        -1616
+      ],
+      "id": "d8dda2e3-4251-45cb-8376-21632744de9b",
+      "name": "Envia a imagem para o drive do bitrix"
+    },
+    {
+      "parameters": {
+        "jsCode": "const BIN_FIELD = 'data';\n\n// 1) Pega os 3 campos do Webhook (exatamente como você passou)\nconst remoteJid =\n  $(\"Webhook\").first().json?.body?.data?.key?.remoteJid ?? \"sem_remoteJid\";\n\nconst pushName =\n  $(\"Webhook\").first().json?.body?.data?.pushName ?? \"sem_pushName\";\n\nconst dateTime =\n  $(\"Webhook\").first().json?.body?.date_time ?? \"sem_date_time\";\n\n// 2) Sanitiza pra virar nome de arquivo seguro (Windows/Bitrix)\nfunction sanitizeFilename(str) {\n  return String(str)\n    .normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g, \"\") // remove acentos\n    .replace(/[\\/\\\\:\\*\\?\"<>\\|\\r\\n]+/g, \"_\")           // caracteres proibidos\n    .replace(/\\s+/g, \" \")                            // normaliza espaços\n    .trim()\n    .replace(/\\s/g, \"_\");                            // troca espaço por _\n}\n\n// 3) Ajusta o date_time pra não ter \":\" (se vier no formato com hora)\nfunction sanitizeDateTime(dt) {\n  // se vier vazio ou não-string\n  if (!dt || typeof dt !== \"string\") return \"sem_date_time\";\n\n  // Ex.: \"2025-12-31T12:00:00.000Z\" -> \"2025-12-31T12_00_00.000Z\"\n  // Ex.: \"2025-12-31 12:00:00\"      -> \"2025-12-31_12_00_00\"\n  return dt\n    .replace(/:/g, \"_\")\n    .replace(/\\s+/g, \"_\");\n}\n\n// 4) Descobre extensão a partir do mimeType do binário (mantém jpg/png/pdf)\nfunction inferExt(bin) {\n  const mime = (bin?.mimeType || \"\").toLowerCase();\n  if (mime.includes(\"jpeg\")) return \"jpg\";\n  if (mime.includes(\"png\")) return \"png\";\n  if (mime.includes(\"pdf\")) return \"pdf\";\n\n  // fallback: tenta usar extensão já existente\n  const fromFileName = (bin?.fileName || \"\").split(\".\").pop();\n  if (fromFileName && fromFileName.length <= 5) return fromFileName.toLowerCase();\n\n  const fromFileExt = (bin?.fileExtension || \"\");\n  if (fromFileExt) return String(fromFileExt).toLowerCase();\n\n  return \"bin\";\n}\n\n// 5) Nome final: remoteJid__pushName__date_time.ext\nconst base = `${remoteJid}__${pushName}__${sanitizeDateTime(dateTime)}`;\nlet safeBase = sanitizeFilename(base);\n\n// opcional: limita tamanho para evitar nomes enormes\nif (safeBase.length > 140) safeBase = safeBase.slice(0, 140);\n\nreturn items.map(item => {\n  if (!item.binary || !item.binary[BIN_FIELD]) return item;\n\n  const bin = item.binary[BIN_FIELD];\n  const ext = inferExt(bin);\n\n  bin.fileName = `${safeBase}.${ext}`;\n  bin.fileExtension = ext;\n\n  item.binary[BIN_FIELD] = bin;\n  return item;\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        -1616
+      ],
+      "id": "6e56b4ff-a9e1-4810-b768-c4cc3d6012db",
+      "name": "Mudança de nome do arquivo2"
+    },
+    {
+      "parameters": {
+        "resource": "chat-api",
+        "operation": "get-media-base64",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "messageId": "={{ $('Organização de dados').item.json.id }}"
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        512,
+        -1616
+      ],
+      "id": "715b230c-4e8b-476e-b86c-1c8bb07a7ff2",
+      "name": "Obter m dia em base66",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "chat-api",
+        "operation": "get-media-base64",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "messageId": "={{ $('Organização de dados').item.json.id }}"
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        -1616
+      ],
+      "id": "cefd11b5-3ccc-4507-bd15-2e6bbbaf8def",
+      "name": "Obter m dia em base67",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "chat-api",
+        "operation": "get-media-base64",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "messageId": "={{ $('Organização de dados').item.json.id }}"
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        -1616
+      ],
+      "id": "03791d08-f6d8-4c86-9ec7-ae8a0df2de67",
+      "name": "Obter m dia em base",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Mensagem final para o agente').item.json.message }}",
+        "options": {
+          "systemMessage": "=Você é um Agente de IA REDIRECIONADOR. Sua função é analisar o conteúdo da mensagem do usuário e o contexto da conversa para decidir qual agente especializado deve assumir o atendimento\n\n---\n\n🎯 FUNÇÃO PRINCIPAL\n\nRedirecionar o atendimento para um dos dois agentes disponíveis, por meio das tools integradas:\n\n1. Agente de tarefas\n2. Agente de negocios\n\n---\n\n🧠 REGRAS DE REDIRECIONAMENTO\n\nConsidere redirecionar a mensagem para o agente de negocios quando houver sinais de orçamento, por exemplo:\n\n- “orçamento”, “cotação”, “proposta”, “pedido”, “valor”, “R$”, “fechamento”, “PDF do orçamento”, “enviar orçamento”, “anexei o orçamento”\n- menção clara a uma fábrica + valor + empresa do cliente + pdf\n\nConsidere redirecionar a mensagem para o agente de tarefas quando houver sinais de atividade operacional, por exemplo:\n\n- “ligar”, “cobrar”, “resolver”, “pós-venda”, “visitar”, “agendar”, “retorno”, “suporte”, “pendência”, “conferir”, “separar”, “enviar amostra”, “acompanhar” “criar” “criar orçamento” “criar cotação”\n- uma ação para alguém executar, com responsável/participantes/prazo\n\nSe a conversa já está em andamento com algum dos dois agentes, não redirecione novamente, apenas observe.\n\n---\n\n💬 RESPOSTA AO USUÁRIO:\n\nSempre que uma tool for acionada (Seja de tarefas ou negocio), você deve responder exatamente com o conteúdo retornado pela tool\n\nOu seja, não invente, reescreva ou modifique a resposta. Apenas envie exatamente o output que recebeu da tool correspondente\n\n---\n\n📌 OBSERVAÇÕES IMPORTANTES:\n\n- Você não deve continuar o atendimento por conta própria.\n- Analise sempre o contexto completo da conversa antes de tomar uma decisão.\n- Não responda diretamente ao usuário com informações próprias.\n- Sua função é exclusivamente redirecionar para o agente certo e repassar a resposta gerada pela tool"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        5712,
+        -1632
+      ],
+      "id": "075efd51-4eeb-4c69-b54d-4735112bbb57",
+      "name": "Agente Coordenador"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Você é o agente especialista em tarefas",
+        "text": "={{ $('Mensagem final para o agente').item.json.message }}",
+        "options": {
+          "systemMessage": "=Você é um Agente de IA responsável por interpretar mensagens enviadas por usuários no WhatsApp e determinar se já existem informações suficientes para criar uma tarefa no CRM Bitrix24 da empresa MD Representações.\n\nSua função é:\n\n1. Analisar todo o conteúdo recebido (texto, descrição de imagem/áudio/PDF e qualquer outro elemento consolidado no fluxo anterior).\n2. Identificar se todos os campos obrigatórios para criar uma tarefa estão disponíveis.\n3. Retornar UMA SAÍDA ESTRUTURADA EM JSON PURO quando todas as informações estiverem completas.\n4. Ou perguntar ao usuário pelas informações faltantes, seguindo o formato definido.\n\n---\n\n🎯 CAMPOS OBRIGATÓRIOS PARA CRIAÇÃO DA TAREFA\n\nOs campos abaixo se dividem entre CONSTANTES e VARIÁVEIS:\n\n### 🟩 CAMPOS FIXOS (sempre iguais):\n\n- grupo: \"Tarefas-Gestão\"\n- observadores: [\"Alex\", \"Fabiola\", \"Igor\", \"Érika\"]\n\n### 🟦 CAMPOS VARIÁVEIS (precisam ser identificados na mensagem):\n\n- nome_da_tarefa:\nDeve seguir o padrão: \"(Tipo da atividade) (Fábrica) - (Nome do Cliente)\"\nExemplo:\n    - Orçamento Quartzolit - Construtora ABC\n    - Compra Elizabeth - Loja XPTO\n- descricao:\nExplicação textual do que deve ser feito. Pode vir da mensagem original ou da descrição gerada pela IA.\n\n- responsavel:\nA pessoa indicada pelo usuário para executar a tarefa.\n\n- participantes:\nLista de outras pessoas mencionadas pelo usuário que atuarão junto.\n\n- criado_por: Deve ser {{ $('Organização de dados').item.json.pushName }},o qual enviou esta demanda, e nos casos em que esse nome for o de MD Representações, que no caso é o de uma empresa, você deve estar perguntando quem é que está solicitando a criação dessa tarefa, pois ele será o criador\n\n- fabrica: Deve ser a marca o qual corresponde a demanda enviada pelo usuário, que irão variar na maioria das vezes entre: Elizabeth, Eliane, Decortiles, Quartzolit, Deca, Nambei, Taschibra, Socelme, Pormade, Pado, Brasilit, Placo, Isover, Astra, Ralo linear, Hidracor e Iquine\n\n- prazo:\nRegras:\n    - Se a mensagem foi enviada antes de 12h → prazo: hoje às 18:00\n    - Se enviada após 12h → prazo: próximo dia útil às 12:00\n    (O agente deve calcular automaticamente)\n\n    - Utilize {{ $now }} como a data presente\n\n- ID: Deve ser o ID da imagem que o fluxo puxa automaticamente. Ele seria o identificador do anexo na hora de criar a tarefa. Seu papel é guardar essa informação, ela aparece ao final da mensagem do usuário, pois ela será crucial nos casos em que os colaboradores enviam arquivos. Mas nos casos em que não enviarem anexos, logo ele não vai existir. Assim, você também não precisa interromper nada, pode seguir o fluxo normalmente, pois se o colaborador não enviou anexo na tarefa não deve conter um também\n\n---\n\n🧠 LÓGICA DE DECISÃO E FORMATO DE SAÍDA (OBRIGATÓRIO)\n\n### ✔️ SE TODAS AS INFORMAÇÕES OBRIGATÓRIAS ESTIVEREM PRESENTES:\n\nVocê DEVE retornar **APENAS UM JSON VÁLIDO**, sem qualquer texto fora do JSON.\n\nFormato EXATO da resposta:\n\n{\n\"pode_criar\": true,\n\"tipo\": tarefa,\n\"mensagem_usuario\": \"Obrigado por todas as informações, sua tarefa será criada!\",\n\"dados_tarefa\": {\n\"grupo\": \"Tarefas-Gestão\",\n\"criado_por\": \"Alex\",\n\"observadores\": [\"Alex\", \"Fabiola\", \"Igor\", \"Érika\"],\n\"nome_da_tarefa\": \"\",\n\"descricao\": \"\",\n\"responsavel\": \"\",\n\"participantes\": [],\n\"fabrica\": \"\",\n\"prazo\": \"\"\n\"ID\": [],\n}\n}\n\n---\n\n❌ SE FALTAR QUALQUER INFORMAÇÃO:\n\nVocê DEVE retornar **APENAS UM JSON VÁLIDO**, sem qualquer texto fora do JSON.\n\nFormato EXATO da resposta:\n\n{\n\"pode_criar\": false,\n\"tipo\": tarefa,\n\"mensagem_usuario\": \"Ainda faltam algumas informações, não consigo criar a sua tarefa por enquanto.\",\n\"faltando\": [],\n\"pergunta\": \"\"\n}\n\nOnde:\n\n- \"faltando\" deve conter uma lista objetiva dos campos ausentes.\n- \"pergunta\" deve conter uma pergunta clara e direta ao usuário.\n\n---\n\n📌 REGRAS IMPORTANTES\n\n- Nunca invente dados.\n- Sempre pergunte qual é a fábrica o qual corresponde a solicitação enviada pelo usuário\n- Só use informações realmente encontradas na mensagem.\n- Nunca, em hipótese alguma, considere que pode criar uma tarefa quando estiver faltando qualquer informação\n- Caso o usuário mencione nomes, considere-os como possíveis responsáveis ou participantes.\n- Se a descrição vier de imagem/áudio/pdf, use-a normalmente.\n- O output deve ser SEMPRE JSON PURO, válido e parseável.\n- Nunca escreva texto fora do JSON.\n- Se houver ambiguidade, pergunte.\n- Este agente cria SOMENTE tarefas, não negócio\n\n---\n\nAgora siga sempre essa lógica e responda de acordo com o conteúdo recebido."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        5696,
+        -1408
+      ],
+      "id": "34304b63-adda-4d94-8b2c-47ea8b14ca9e",
+      "name": "Agente de tarefas"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Você é o agente especialista em negocios",
+        "text": "={{ $('Mensagem final para o agente').item.json.message }}",
+        "options": {
+          "systemMessage": "=Você é um Agente de IA responsável por interpretar mensagens enviadas por usuários no WhatsApp e determinar se já existem informações suficientes para criar um NEGÓCIO (card de vendas) no CRM Bitrix24 da empresa MD Representações.\n\nSua função é:\n\n1. Analisar todo o conteúdo recebido (texto, descrição de imagem/áudio/PDF e qualquer outro elemento consolidado no fluxo anterior).\n2. Identificar se todos os campos obrigatórios para criar um NEGÓCIO estão disponíveis.\n3. Retornar UMA SAÍDA ESTRUTURADA EM JSON PURO quando todas as informações estiverem completas.\n4. Ou perguntar ao usuário pelas informações faltantes, seguindo o formato definido.\n\n---\n\n🎯 CAMPOS OBRIGATÓRIOS PARA CRIAÇÃO DO NEGÓCIO\n\nOs campos abaixo se dividem entre FIXOS e VARIÁVEIS:\n\n---\n\n## 🟩 CAMPOS FIXOS (sempre iguais)\n\n- etapa: \"Negociações do mês\"\n\n---\n\n## 🟦 CAMPOS VARIÁVEIS (devem ser identificados ou calculados)\n\n---\n\n### 🔹 empresa (OBRIGATÓRIO)\n\nEste campo representa **a empresa do cliente relacionada ao orçamento**.\n\nObjetivo do campo:\n\n- Identificar claramente **qual empresa está solicitando ou recebendo o orçamento**\n- Essa informação será usada posteriormente para:\n    - Verificar se a empresa já possui cadastro no CRM Bitrix24\n    - Criar ou relacionar o negócio corretamente\n\n⚠️ Regras:\n\n- Deve ser o nome da empresa do cliente (não da fábrica)\n- Nunca inventar\n- Se não estiver claro, perguntar explicitamente ao usuário\n\nExemplos:\n\n- \"Construtora Alfa\"\n- \"Loja XPTO\"\n- \"Incorporadora Horizonte\"\n\n---\n\n### 🔹 fabrica (OBRIGATÓRIO)\n\nMarca relacionada ao orçamento.\n\nPode variar entre:\nElizabeth, Eliane, Eliane Floor, Decortiles, Quartzolit,\n\nDeca Metais, Deca Louças,\n\nNambei, Taschibra, Socelme,\n\nPormade, Pado,\n\nBrasilit, Placo, Isover,\n\nAstra,\n\nRalo Linear,\n\nHidracor, Iquine.\n\n⚠️ Sempre perguntar a fábrica se não estiver explícita.\n\n---\n\n### 🔹 pipeline (NUNCA perguntar ao usuário)\n\nO pipeline deve ser definido AUTOMATICAMENTE com base na fábrica, seguindo EXATAMENTE as regras abaixo:\n\n- Elizabeth, Eliane, Eliane Floor ou Decortiles\n    \n    → pipeline: \"Elizabeth | Eliane | Decortiles\"\n    \n- Quartzolit\n    \n    → pipeline: \"Quartzolit\"\n    \n- Deca Metais ou Deca Louças\n    \n    → pipeline: \"Dexco\"\n    \n- Nambei, Taschibra ou Socelme\n    \n    → pipeline: \"Nambei | Taschibra | Socelme\"\n    \n- Pormade ou Pado\n    \n    → pipeline: \"Pormade | Pado\"\n    \n- Brasilit, Placo ou Isover\n    \n    → pipeline: \"Saint-Gobain\"\n    \n- Astra\n    \n    → pipeline: \"Astra\"\n    \n- Ralo Linear\n    \n    → pipeline: \"Ralo Linear | Asperbras\"\n    \n- Hidracor ou Iquine\n    \n    → pipeline: \"Hidracor | Iquine\"\n    \n\n---\n\n### 🔹 campo_personalizado_fabrica (OBRIGATÓRIO EM ALGUNS PIPELINES)\n\n⚠️ ATENÇÃO MUITO IMPORTANTE\n\nSempre que o pipeline possuir MAIS DE UMA FÁBRICA NO NOME, você DEVE criar um campo adicional para preencher corretamente o campo personalizado do Bitrix24.\n\nUse EXATAMENTE as regras abaixo:\n\n- Pipeline: \"Elizabeth | Eliane | Decortiles\"\n    \n    → criar campo:\n    \n    \"fabrica_elizabeth_eliane\": \"<nome exato da fábrica>\"\n    \n- Pipeline: \"Dexco\"\n    \n    → criar campo:\n    \n    \"segmento_dexco\": \"<Deca Metais OU Deca Louças>\"\n    \n- Pipeline: \"Nambei | Taschibra | Socelme\"\n    \n    → criar campo:\n    \n    \"fabrica_nambei_taschibra\": \"<nome exato da fábrica>\"\n    \n- Pipeline: \"Pormade | Pado\"\n    \n    → criar campo:\n    \n    \"fabrica_pormade_pado\": \"<nome exato da fábrica>\"\n    \n- Pipeline: \"Saint-Gobain\"\n    \n    → criar campo:\n    \n    \"fabrica_saint_gobain\": \"<Brasilit OU Placo OU Isover>\"\n    \n- Pipeline: \"Ralo Linear | Asperbras\"\n    \n    → criar campo:\n    \n    \"fabrica_ralo_linear_asperbras\": \"<nome exato da fábrica>\"\n    \n- Pipeline: \"Hidracor | Iquine\"\n    \n    → criar campo:\n    \n    \"fabrica_hidracor_iquine\": \"<nome exato da fábrica>\"\n    \n\n⚠️ Se o pipeline possuir apenas UMA fábrica (ex: Quartzolit ou Astra), NÃO criar campo personalizado adicional.\n\n---\n\n### 🔹 nome_do_negocio (OBRIGATÓRIO)\n\nFormato obrigatório:\n\"Empresa | Fábrica\"\n\nExemplos:\n\n- Construtora Alfa | Quartzolit\n- Loja XPTO | Deca Metais\n\n---\n\n### 🔹 valor (OBRIGATÓRIO)\n\nValor total do orçamento.\n\nFormato numérico.\nExemplo:\n12500.00\n\n---\n\n### 🔹 moeda (OBRIGATÓRIO)\n\nSempre:\n\"BRL\"\n\n---\n\n### 🔹 data_fechamento (OBRIGATÓRIO)\n\nRegra fixa:\nSempre o dia 27 do mês atual em que o orçamento foi feito.\n\n(Você deve calcular automaticamente com base na data presente {{ $now }})\n\n---\n\n### 🔹 responsavel (OBRIGATÓRIO)\n\nPessoa responsável pelo orçamento.\n\nRegras:\n\n- Se o remetente for \"MD Representações\", perguntar quem é o responsável humano\n- Caso contrário, usar quem enviou a demanda\n\n---\n\n### 🔹 ID do PDF (OBRIGATÓRIO)\n\nDeve ser o ID da imagem que o fluxo puxa automaticamente. Ele seria o identificador do anexo na hora de criar o negócio. Seu papel é guardar essa informação, ela aparece ao final da mensagem do usuário, pois ela será crucial no cadastro do negócio\n\n---\n\n### 🔹 produtos (OPCIONAL)\n\nLista de produtos citados no orçamento.\n\nSe não houver, retornar [].\n\n---\n\n🧠 LÓGICA DE DECISÃO E FORMATO DE SAÍDA\n\n### ✔️ SE TODAS AS INFORMAÇÕES ESTIVEREM PRESENTES\n\nRetornar APENAS JSON válido:\n\n{\n\"pode_criar\": true,\n\"tipo\": negocio,\n\"mensagem_usuario\": \"Perfeito! O negócio será criado no CRM.\",\n\"dados_negocio\": {\n\"pipeline\": \"\",\n\"etapa\": \"Negociações do mês\",\n\"empresa\": \"\",\n\"fabrica\": \"\",\n\"nome_do_negocio\": \"\",\n\"valor\": 0,\n\"moeda\": \"BRL\",\n\"data_fechamento\": \"\",\n\"responsavel\": \"\",\n\"produtos\": [],\n\"ID PDF\": [],\n\"campos_personalizados\": {}\n}\n}\n\n---\n\n### ❌ SE FALTAR QUALQUER INFORMAÇÃO\n\n{\n\"pode_criar\": false,\n\"tipo\": negocio,\n\"mensagem_usuario\": \"Ainda faltam informações para criar o negócio.\",\n\"faltando\": [],\n\"pergunta\": \"\"\n}\n\n---\n\n📌 REGRAS FINAIS\n\n- Nunca inventar dados\n- Nunca inventar valores\n- PDF é obrigatório\n- Pipeline nunca é perguntado\n- Campo personalizado deve existir quando aplicável\n- Nunca escrever texto fora do JSON\n- Output sempre em JSON puro e parseável\n- Este agente cria SOMENTE negócios, não tarefas"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        5984,
+        -1408
+      ],
+      "id": "c133a09c-317b-44b7-85ff-013544f13671",
+      "name": "Agente de negocios"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Organização de dados').item.json.remoteJid }}",
+        "sessionTTL": 3600,
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        6048,
+        -1200
+      ],
+      "id": "e62952a8-772a-45ba-a714-e5cd9074e8fa",
+      "name": "Redis Chat Memory1",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        5728,
+        -1200
+      ],
+      "id": "4d7eeb70-3fdf-4122-a18a-69899891b982",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "aViGL4rDfar5T7E1",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.dados.tipo }}",
+                    "rightValue": "tarefa",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "36a47eb6-aac6-4bb0-995e-ae7f90448290"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Tarefa"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "fa046407-2af0-4d28-a8a7-b24c8d877e97",
+                    "leftValue": "={{ $json.dados.tipo }}",
+                    "rightValue": "negocio",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Negócio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "eaee03b5-de3c-408c-9628-9a5877710d6e",
+                    "leftValue": "={{ $json.raw_text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Outras respostas"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        6576,
+        -1424
+      ],
+      "id": "46ef53c1-44bc-45fc-b749-ef4921c38cb0",
+      "name": "Tarefa ou negócio"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0eb37cd4-50eb-4200-a405-c2713cd31737",
+              "leftValue": "={{ $json.texto_completo }}",
+              "rightValue": "tarefa",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "d27c4cb3-73aa-4c30-ae33-0efbeb95e227",
+              "leftValue": "={{ $json.texto_completo }}",
+              "rightValue": "Tarefa",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "d65e20db-f9d6-41ee-940e-b551279f41ee",
+              "leftValue": "={{ $json.texto_completo }}",
+              "rightValue": "task",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "ae51110e-6fe3-46d1-a11c-1d753d71b88b",
+              "leftValue": "={{ $json.texto_completo }}",
+              "rightValue": "Task",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "97a4e2dd-55c6-468a-9001-7abb623a694c",
+              "leftValue": "={{ $json.texto_completo }}",
+              "rightValue": "atividade",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "fb9db214-d9ac-4d7a-a405-086f290bdb4a",
+              "leftValue": "={{ $json.texto_completo }}",
+              "rightValue": "Atividade",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "2b6e4192-fa68-4473-a3d9-903f4f2a4b2f",
+              "leftValue": "={{ $json.texto_completo }}",
+              "rightValue": "negocio",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "eded8f05-f5a7-481f-a29b-95b0afa2da76",
+              "leftValue": "={{ $json.texto_completo }}",
+              "rightValue": "Negocio",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "7e8461d8-9260-4f12-a033-1c9f2c170742",
+              "leftValue": "={{ $json.texto_completo }}",
+              "rightValue": "negócio",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "98ee2679-e4cf-4bae-932f-e2d2a67a7f9a",
+              "leftValue": "={{ $json.texto_completo }}",
+              "rightValue": "Negócio",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        5472,
+        -1280
+      ],
+      "id": "33d0e2de-5902-411e-a16c-984e7c5df6f7",
+      "name": "Sabe que é uma tarefa ou negocio?"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "remoteJid": "={{ $('Organização de dados').item.json.remoteJid }}",
+        "messageText": "Olá! Isso seria para criar uma tarefa ou um negócio?",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        5920,
+        -1024
+      ],
+      "id": "4e3c1ac5-6529-4eb9-9b4b-ccc0b8d1d11a",
+      "name": "Enviar texto1",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.dados.pode_criar }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "false",
+                      "singleValue": true
+                    },
+                    "id": "da1ef767-2080-48e7-9bee-03823976b12b"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Não"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "96171f24-c323-49dd-b75a-ad6427a6eb7f",
+                    "leftValue": "={{ $json.dados.pode_criar }}",
+                    "rightValue": false,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sim"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        6800,
+        -1232
+      ],
+      "id": "49ff17cc-d8b7-447a-8f60-f63a8d179517",
+      "name": "Pode criar o negocio?"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "remoteJid": "={{ $('Organização de dados').item.json.remoteJid }}",
+        "messageText": "={{ $('Pode criar o negocio?').item.json.dados.pergunta }}",
+        "options_message": {
+          "linkPreview": true
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        7024,
+        -1328
+      ],
+      "id": "d8a9b9e1-880a-47c7-91e5-53ee4a4237a2",
+      "name": "Msg pergunta1",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Organização de dados').item.json.instance }} {{ $('Organização de dados').item.json.remoteJid }} filter"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        8144,
+        -1616
+      ],
+      "id": "75234e53-bc9b-4edb-8904-459549c376c8",
+      "name": "Redis8",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Organização de dados').item.json.instance }} {{ $('Organização de dados').item.json.remoteJid }} filter"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        8144,
+        -1424
+      ],
+      "id": "c6647cc1-e7e3-42f5-8036-74af5d42f276",
+      "name": "Redis9",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "67c808cc-34db-4787-bb4e-4361435ae606",
+              "leftValue": "={{ $json['título pdf'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "ccf310d9-f136-4e2a-bd08-8f0391cb76ff",
+              "leftValue": "={{ $json['legenda pdf'] }}",
+              "rightValue": "={{ $json['legenda pdf'] }}",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -608,
+        -1168
+      ],
+      "id": "9f9f6c0c-1dec-41fb-8303-38a2c68b59dc",
+      "name": "Contém título/legenda"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "fd2e54ca-2168-4a6a-8b04-59e67cd7ca8c",
+              "leftValue": "={{ $json['legenda imagem'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -608,
+        -1616
+      ],
+      "id": "35aa3f06-0a8a-4853-87b0-5a1d4c1e5637",
+      "name": "Contém título/legenda1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = items[0]?.json ?? {};\n\n// tenta achar onde está a lista de mensagens\nlet arr =\n  data.msgs ??\n  data.messages ??\n  data.items ??\n  data.data ??\n  data[Object.keys(data)[0]]; // pega a primeira propriedade do objeto\n\n// garante que é array\nif (!Array.isArray(arr)) arr = [];\n\n// converte cada item em texto (suporta string ou objeto)\nconst texto_completo = arr\n  .map((m) => {\n    if (typeof m === 'string') return m;\n    if (m && typeof m === 'object') {\n      return m.text ?? m.body ?? m.message ?? m.caption ?? '';\n    }\n    return '';\n  })\n  .filter(Boolean)\n  .join(' ');\n\nreturn [{ json: { texto_completo } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5248,
+        -1280
+      ],
+      "id": "ad147d48-387e-450d-b41e-974e2a0942fa",
+      "name": "Unir todos os textos da key de filtragem para o if"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Organização de dados').item.json.instance }} {{ $('Organização de dados').item.json.remoteJid }} filter",
+        "messageData": "={{ $json['msg final'] }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        -1856
+      ],
+      "id": "77e958d8-6974-4fdf-9e04-60d97176bcad",
+      "name": "Add conteúdo ou cria a key para filtro",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Organização de dados').item.json.instance }} {{ $('Organização de dados').item.json.remoteJid }} filter",
+        "messageData": "={{ $('mensagem imagem').item.json['legenda imagem'] }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        -1696
+      ],
+      "id": "b388f461-6e6d-435b-bda0-aa43b35d4ec5",
+      "name": "Add conteúdo ou cria a key para filtro1",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Organização de dados').item.json.instance }} {{ $('Organização de dados').item.json.remoteJid }} filter",
+        "messageData": "={{ $json.content.parts[0].text }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1856,
+        -1408
+      ],
+      "id": "6beae9e8-3f07-4387-906d-7d86229393d8",
+      "name": "Add conteúdo ou cria a key para filtro2",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Organização de dados').item.json.instance }} {{ $('Organização de dados').item.json.remoteJid }} filter",
+        "messageData": "=Título: {{ $json['título pdf'] }}. Legenda: {{ $json['legenda pdf'] }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        -1232
+      ],
+      "id": "81acc16d-c79d-4f18-a827-97a7042a5934",
+      "name": "Add conteúdo ou cria a key para filtro3",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "keys",
+        "keyPattern": "={{ $('Organização de dados').item.json.instance }} {{ $('Organização de dados').item.json.remoteJid }} filter"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        5024,
+        -1280
+      ],
+      "id": "85e159e4-de20-4300-b384-3fe4a4d69371",
+      "name": "Add conteúdo ou cria a key para filtro4",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Organização de dados').item.json.instance }} {{ $('Organização de dados').item.json.remoteJid }} filter",
+        "messageData": "={{ $json.data.message.conversation }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        6352,
+        -1024
+      ],
+      "id": "7c666412-be30-4d61-8ca7-be906142c8e2",
+      "name": "Add conteúdo ou cria a key para filtro5",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "remoteJid": "={{ $('Organização de dados').item.json.remoteJid }}",
+        "messageText": "={{ $('Tarefa ou negócio').item.json.dados.mensagem_usuario }}",
+        "options_message": {
+          "linkPreview": true
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        7920,
+        -1424
+      ],
+      "id": "2cdc7c39-db0f-48b3-bb45-ab8b5f8565ff",
+      "name": "Msg resposta",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mdrepresentacoes.bitrix24.com.br/rest/1621/zystghlq1zzm925y/crm.company.list.json",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"filter\": {\n    \"%TITLE\": \"{{ $('Tarefa ou negócio').item.json.dados.dados_negocio.empresa }}\"\n  },\n  \"select\": [\"ID\", \"TITLE\"],\n  \"order\": { \"ID\": \"DESC\" }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        7024,
+        -1136
+      ],
+      "id": "dc401e6a-f3de-42f4-b5a7-279d5ccc38c5",
+      "name": "Busca no banco de empresas"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.result[0].ID }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notExists",
+                      "singleValue": true
+                    },
+                    "id": "f7e0fe64-32f5-4e5d-b8db-e8b66537d9ed"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "não"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ddd31eba-d314-428a-b476-bcadd28a8240",
+                    "leftValue": "={{ $json.result[0].ID }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "sim"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        7248,
+        -1136
+      ],
+      "id": "210957a6-ba83-4111-a8df-2628d7da9e54",
+      "name": "A empresa está cadastrada?"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "remoteJid": "={{ $('Organização de dados').item.json.remoteJid }}",
+        "messageText": "=Ops! Parece que esta empresa não está cadastrada no bitrix. Por favor faça o cadastro dela e tente novamente.",
+        "options_message": {
+          "linkPreview": true
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        7472,
+        -1232
+      ],
+      "id": "d4c7d8c7-c8e6-4430-b335-b04c524fb9b3",
+      "name": "Msg pergunta2",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cffc49e0-4e1c-4b90-8615-2bcf688a8d68",
+              "name": "Pipeline",
+              "value": "={{ \n  $json.mapa_pipelines?.[$json[\"Pipeline\"]] \n  ?? $json.mapa_pipelines?.[($json[\"pipeline\"] || \"\").normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g,\"\")] \n}}",
+              "type": "string"
+            },
+            {
+              "id": "fadf5f16-84bc-4c2a-8fa4-55535863c1ca",
+              "name": "Etapa",
+              "value": "UC_ENX80B",
+              "type": "string"
+            },
+            {
+              "id": "4c2baac2-7e65-413d-9e8e-90be5c3f34b1",
+              "name": "Empresa",
+              "value": "={{ $('Busca no banco de empresas').item.json.result[0].ID }}",
+              "type": "string"
+            },
+            {
+              "id": "dfccc0a6-9ed8-4cef-bb49-7073359f6dd8",
+              "name": "Nome do negócio",
+              "value": "={{\n  $json[\"Nome do negócio\"]\n    .toLowerCase()\n    .replace(/(^|[^\\p{L}])(\\p{L})/gu, (m, sep, ch) => sep + ch.toUpperCase())\n    .replace(/\\b(De|Da|Do|Dos|Das|E)\\b/gu, m => m.toLowerCase())\n}}",
+              "type": "string"
+            },
+            {
+              "id": "a2aeaf85-f6f6-40d9-ad68-d98a9a93fc91",
+              "name": "Valor",
+              "value": "={{ $json.Valor }}",
+              "type": "number"
+            },
+            {
+              "id": "6e687f11-20c4-43a9-acc7-00415317fb02",
+              "name": "Responsável",
+              "value": "={{ $json.mapa_usuarios?.[$json[\"Responsável\"]] ?? $json.mapa_usuarios?.[($json[\"Responsável\"] || \"\").normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g,\"\")] }}",
+              "type": "string"
+            },
+            {
+              "id": "4c23a6bc-03da-4faf-bcb3-e04c9c804075",
+              "name": "Data de fechamento",
+              "value": "={{ $json['Data de fechamento'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3d109cdc-026b-4dd0-901b-9ec39ca13fd1",
+              "name": "campo_fabrica_id",
+              "value": "={{ $json.mapa_campos_fabrica?.[$json.fabrica] }}",
+              "type": "string"
+            },
+            {
+              "id": "3e421fb0-2c25-49f2-97b9-2a5b3f7ff12b",
+              "name": "fabrica",
+              "value": "={{ $json.fabrica }}",
+              "type": "string"
+            },
+            {
+              "id": "731874cc-b181-4751-a9b2-5440bc8e4dd7",
+              "name": "=enum_fabrica_id",
+              "value": "={{ $json.mapa_enum_fabrica?.[$json.fabrica_norm] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        7696,
+        -1040
+      ],
+      "id": "c27d5d00-2f5e-4c29-81eb-bee8f9509285",
+      "name": "Dados para o bitrix"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "remoteJid": "={{ $('Organização de dados').item.json.remoteJid }}",
+        "messageText": "={{ $('Tarefa ou negócio').item.json.dados.mensagem_usuario }}",
+        "options_message": {
+          "linkPreview": true
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        10144,
+        -1040
+      ],
+      "id": "f230ec24-d1f2-4aef-a249-6cb140aa558d",
+      "name": "Msg resposta2",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Organização de dados').item.json.instance }} {{ $('Organização de dados').item.json.remoteJid }} filter"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        10368,
+        -1040
+      ],
+      "id": "a21abcf5-1e0d-44af-b641-cac648de07fb",
+      "name": "Redis10",
+      "credentials": {
+        "redis": {
+          "id": "bOWpTSwKKBnkxhve",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aa7bac81-1786-48ca-acd6-e43666379170",
+              "name": "mapa_usuarios",
+              "value": "{\n  \"Lucas\": 1621,\n  \"Lucas Ferreira\": 1621,\n  \"Margley\": 8737,\n  \"Yulle\": 8739,\n  \"Pricila\": 8741,\n  \"Priscila\": 8741,\n  \"Érika\": 8743,\n  \"Erika\": 8743,\n  \"Érika Marques\": 8743,\n  \"Erika Marques\": 8743,\n  \"João\": 11251,\n  \"Fabiola\": 17,\n  \"Alex\": 1,\n  \"Alex - MD Representacoes Ltda\": 1,\n  \"Igor\": 15,\n  \"José\": 8731,\n  \"Jose\": 8731,\n  \"José Artur Oliveira\": 8731,\n  \"Jose Artur Oliveira\": 8731,\n  \"Daniel\": 10695,\n  \"Daniel Nóbrega\": 10695\n}",
+              "type": "object"
+            },
+            {
+              "id": "2618a4bd-7fca-4ae7-8c5f-11b6ae4a66e7",
+              "name": "=mapa_pipelines",
+              "value": "{\n  \"Elizabeth | Eliane | Decortiles\": 0,\n  \"Quartzolit\": 5,\n  \"Dexco\": 1,\n  \"Nambei | Taschibra | Socelme\": 7,\n  \"Pormade | Pado\": 9,\n  \"Saint-Gobain\": 13,\n  \"Astra\": 17,\n  \"Hidracor | Iquine\": 3,\n}",
+              "type": "object"
+            },
+            {
+              "id": "74f4288b-bafb-456c-a5d1-02dc09806f69",
+              "name": "mapa_campos_fabrica",
+              "value": "{\n  \"Deca Metais\": \"UF_CRM_1656449678556\",\n  \"Deca Louças\": \"UF_CRM_1656449678556\",\n\n  \"Brasilit\": \"UF_CRM_1658261504906\",\n  \"Isover\": \"UF_CRM_1658261504906\",\n  \"Placo\": \"UF_CRM_1658261504906\",\n\n  \"Nambei\": \"UF_CRM_1692040860237\",\n  \"Taschibra\": \"UF_CRM_1692040860237\",\n  \"Socelme\": \"UF_CRM_1692040860237\",\n\n  \"Pormade\": \"UF_CRM_1692040928828\",\n  \"Pado\": \"UF_CRM_1692040928828\",\n\n  \"Hidracor\": \"UF_CRM_1707500337493\",\n  \"Iquine\": \"UF_CRM_1707500337493\",\n\n  \"Elizabeth\": \"UF_CRM_1733418480160\",\n  \"Eliane\": \"UF_CRM_1733418480160\",\n  \"Eliane floor\": \"UF_CRM_1733418480160\",\n  \"Decortiles\": \"UF_CRM_1733418480160\"\n}\n",
+              "type": "object"
+            },
+            {
+              "id": "87e26c73-e78c-4f15-bff7-8388f0b51115",
+              "name": "mapa_enum_fabrica",
+              "value": "={\n  \"elizabeth\": 1441,\n  \"eliane\": 1443,\n  \"decortiles\": 1455,\n  \"eliane floor\": 1457,\n\n  \"deca metais\": 895,\n  \"deca loucas\": 897,\n\n  \"brasilit\": 975,\n  \"placo\": 977,\n  \"isover\": 979,\n\n  \"nambei\": 1157,\n  \"taschibra\": 1159,\n  \"socelme\": 1459,\n\n  \"pormade\": 1163,\n  \"pado\": 1165,\n\n  \"hidracor\": 1217,\n  \"iquine\": 1219\n}\n",
+              "type": "object"
+            },
+            {
+              "id": "4e8ebcbf-56e4-45ff-adbf-7ccae33fb069",
+              "name": "Pipeline",
+              "value": "={{ $('Pode criar o negocio?').item.json.dados.dados_negocio.pipeline }}",
+              "type": "string"
+            },
+            {
+              "id": "9941351b-053f-4ab9-b7b0-a97c80bb1e28",
+              "name": "Etapa",
+              "value": "={{ $('Pode criar o negocio?').item.json.dados.dados_negocio.etapa }}",
+              "type": "string"
+            },
+            {
+              "id": "486dd91b-da70-43b6-bbd4-ae6296de0be4",
+              "name": "Empresa",
+              "value": "={{ $('Pode criar o negocio?').item.json.dados.dados_negocio.empresa }}",
+              "type": "string"
+            },
+            {
+              "id": "34e5a9b6-447b-4a5f-90e3-f3fb165658de",
+              "name": "Nome do negócio",
+              "value": "={{ $('Pode criar o negocio?').item.json.dados.dados_negocio.nome_do_negocio }}",
+              "type": "string"
+            },
+            {
+              "id": "cd7528fd-e22a-435c-a853-533559f4c89a",
+              "name": "Valor",
+              "value": "={{ $('Pode criar o negocio?').item.json.dados.dados_negocio.valor }}",
+              "type": "number"
+            },
+            {
+              "id": "3e9b9ba8-181f-4931-9d4b-24fd2dcb6c07",
+              "name": "Responsável",
+              "value": "={{ $('Pode criar o negocio?').item.json.dados.dados_negocio.responsavel }}",
+              "type": "string"
+            },
+            {
+              "id": "e2de0ee1-43fa-4560-8c6b-620edcd004b6",
+              "name": "Data de fechamento",
+              "value": "={{ $('Pode criar o negocio?').item.json.dados.dados_negocio.data_fechamento }}",
+              "type": "string"
+            },
+            {
+              "id": "4fdd2167-eb8b-4e17-896c-87b5efae5c90",
+              "name": "PDF",
+              "value": "={{ $('Pode criar o negocio?').item.json.dados.dados_negocio['ID PDF'] }}",
+              "type": "array"
+            },
+            {
+              "id": "77384602-8996-43e1-8874-9f9237b2bd2d",
+              "name": "fabrica_norm",
+              "value": "={{ \n  ($('Pode criar o negocio?').item.json.dados.dados_negocio.fabrica || \"\")\n    .trim()\n    .toLowerCase()\n    .normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g,\"\")\n    .replace(/\\s+/g,\" \")\n}}",
+              "type": "string"
+            },
+            {
+              "id": "aff59742-a1af-4d78-88e2-8ba866a60fbc",
+              "name": "fabrica",
+              "value": "={{ $('Pode criar o negocio?').item.json.dados.dados_negocio.fabrica }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        7472,
+        -1040
+      ],
+      "id": "44c1c44c-3f3f-4dca-b8e5-0ac6febf0293",
+      "name": "Organização dos dados"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ff27b752-d5d8-4138-af3a-1381b27c1e3a",
+              "name": "ID_company",
+              "value": "={{ $('Busca no banco de empresas').item.json.result[0].ID }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        9040,
+        -1040
+      ],
+      "id": "d69e8d6a-9273-42b1-8aa0-2592ec780164",
+      "name": "ID da empresa"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mdrepresentacoes.bitrix24.com.br/rest/1621/zystghlq1zzm925y/crm.deal.add.json",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "fields[CATEGORY_ID]",
+              "value": "={{ $json.Pipeline }}"
+            },
+            {
+              "name": "fields[STAGE_ID]",
+              "value": "={{ $json.Etapa }}"
+            },
+            {
+              "name": "fields[TITLE]",
+              "value": "={{ $json['Nome do negócio'] }}"
+            },
+            {
+              "name": "fields[OPPORTUNITY]",
+              "value": "={{ $json.Valor }}"
+            },
+            {
+              "name": "fields[CURRENCY_ID]",
+              "value": "BRL"
+            },
+            {
+              "name": "fields[COMPANY_ID]",
+              "value": "={{ $json.Empresa }}"
+            },
+            {
+              "name": "fields[CLOSEDATE]",
+              "value": "={{ $json['Data de fechamento'] }}"
+            },
+            {
+              "name": "fields[ASSIGNED_BY_ID]",
+              "value": "={{ $json['Responsável'] }}"
+            },
+            {
+              "name": "=fields[{{ $json.campo_fabrica_id }}]",
+              "value": "={{ $json.enum_fabrica_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        7920,
+        -1040
+      ],
+      "id": "46096798-904d-4a34-9dc5-443f46acc274",
+      "name": "Criação do negócio"
+    },
+    {
+      "parameters": {
+        "url": "https://mdrepresentacoes.bitrix24.com.br/rest/1621/zystghlq1zzm925y/crm.deal.contact.add.json",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "=id",
+              "value": "={{ $json.deal_id }}"
+            },
+            {
+              "name": "fields[CONTACT_ID]",
+              "value": "={{ $json.contact_id }}"
+            },
+            {
+              "name": "fields[IS_PRIMARY]",
+              "value": "={{ $json.is_primary }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        9712,
+        -1120
+      ],
+      "id": "87f75a9f-90a7-4f18-97dd-04abb765fb19",
+      "name": "Adiciona os contatos ao negócio"
+    },
+    {
+      "parameters": {
+        "url": "https://mdrepresentacoes.bitrix24.com.br/rest/1621/zystghlq1zzm925y/crm.contact.list",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "filter[=COMPANY_ID]",
+              "value": "={{ $json.ID_company }}"
+            },
+            {
+              "name": "select[0]",
+              "value": "ID"
+            },
+            {
+              "name": "select[1]",
+              "value": "NAME"
+            },
+            {
+              "name": "select[2]",
+              "value": "LAST_NAME"
+            },
+            {
+              "name": "select[3]",
+              "value": "COMPANY_ID"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        9264,
+        -1040
+      ],
+      "id": "53ddc91c-648c-45be-89cc-dfced23c1720",
+      "name": "Busca de contatos da empresa",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const dealId = $('Criação do negócio').item.json.result;\n\n// tenta achar o array de contatos de forma segura\nconst root = items[0]?.json ?? {};\nconst contatos = Array.isArray(root.result) ? root.result : [];\n\nreturn contatos.map((c, i) => ({\n  json: {\n    deal_id: dealId,\n    contact_id: c.ID,\n    is_primary: i === 0 ? 'Y' : 'N',\n  }\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        9488,
+        -1120
+      ],
+      "id": "ec51ed8c-a341-4c4e-9dd5-3a1cf8f3ef33",
+      "name": "Listagem dos contatos"
+    },
+    {
+      "parameters": {
+        "url": "https://mdrepresentacoes.bitrix24.com.br/rest/1621/9kfczz5gzrzvdec5/disk.file.get.json",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "id",
+              "value": "={{ $('Organização dos dados').item.json.PDF[0] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        8144,
+        -1040
+      ],
+      "id": "fb38fea3-66f1-493a-a178-bf70791b83a7",
+      "name": "Busca do arquivo no drive"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.result.DOWNLOAD_URL }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        8368,
+        -1040
+      ],
+      "id": "18fa6b97-db04-4733-8f0d-a4895955bb15",
+      "name": "Download do PDF"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mdrepresentacoes.bitrix24.com.br/rest/1621/zystghlq1zzm925y/crm.deal.update",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"id\": \"{{ $('Criação do negócio').item.json.result }}\",\n  \"fields\": {\n    \"UF_CRM_1724444075054\": {\n      \"fileData\": [\n        \"{{ $('Organização dos dados').item.json['Nome do negócio'] }} | {{ $('Organização dos dados').item.json['Data de fechamento'] }}.pdf\",\n        \"{{ $('Extract from File').item.json.pdf_base64 }}\"\n      ]\n    }\n  }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        8816,
+        -1040
+      ],
+      "id": "275db245-88b5-4352-9e2b-efeff493e8c9",
+      "name": "Upload do PDF no negócio"
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "destinationKey": "pdf_base64",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        8592,
+        -1040
+      ],
+      "id": "53bf05b9-42c5-49cd-acfe-c8b2963299bc",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        9920,
+        -1120
+      ],
+      "id": "98d6bd6c-ebde-4466-b875-83e18010f25d",
+      "name": "Limitar a quantidade de itens"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Organização de dados').item.json.instance }}",
+        "remoteJid": "={{ $('Organização de dados').item.json.remoteJid }}",
+        "messageText": "={{ $json.raw_text }}",
+        "options_message": {
+          "linkPreview": true
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        6768,
+        -880
+      ],
+      "id": "86d4988d-ffee-4e53-b92a-133f5f05dd70",
+      "name": "Msg pergunta3",
+      "credentials": {
+        "evolutionApi": {
+          "id": "fNiaD6tQMDIfFJsD",
+          "name": "Evolution account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "mdrepres-n8n.zcnijx.easypanel.host",
+            "user-agent": "axios/1.13.2",
+            "content-length": "1478",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "mdrepres-n8n.zcnijx.easypanel.host",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "2de9d76b5e98",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "mdrepres",
+            "data": {
+              "key": {
+                "remoteJid": "558494818515@s.whatsapp.net",
+                "remoteJidAlt": "201726057537539@lid",
+                "fromMe": false,
+                "id": "3EB0870CAAD7848286498B",
+                "participant": "",
+                "addressingMode": "pn"
+              },
+              "pushName": "MD Representações",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "messageContextInfo": {
+                  "threadId": [],
+                  "deviceListMetadata": {
+                    "senderKeyIndexes": [],
+                    "recipientKeyIndexes": [],
+                    "senderKeyHash": {
+                      "0": 129,
+                      "1": 254,
+                      "2": 239,
+                      "3": 122,
+                      "4": 100,
+                      "5": 105,
+                      "6": 41,
+                      "7": 142,
+                      "8": 71,
+                      "9": 242
+                    },
+                    "senderTimestamp": {
+                      "low": 1771173614,
+                      "high": 0,
+                      "unsigned": true
+                    },
+                    "senderAccountType": 0,
+                    "receiverAccountType": 0,
+                    "recipientKeyHash": {
+                      "0": 11,
+                      "1": 73,
+                      "2": 3,
+                      "3": 141,
+                      "4": 6,
+                      "5": 53,
+                      "6": 118,
+                      "7": 238,
+                      "8": 189,
+                      "9": 170
+                    },
+                    "recipientTimestamp": {
+                      "low": 1771503760,
+                      "high": 0,
+                      "unsigned": true
+                    }
+                  },
+                  "deviceListMetadataVersion": 2
+                },
+                "conversation": "*Lucas Ferreira:* \nTa certo, obrigado"
+              },
+              "contextInfo": {
+                "mentionedJid": [],
+                "groupMentions": [],
+                "statusAttributions": [],
+                "ephemeralSettingTimestamp": {
+                  "low": 1771458365,
+                  "high": 0,
+                  "unsigned": false
+                },
+                "disappearingMode": {
+                  "initiator": 0,
+                  "trigger": 1,
+                  "initiatedByMe": false
+                }
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1771631200,
+              "instanceId": "2b800946-7943-4761-b082-81c52abc8bf5",
+              "source": "web"
+            },
+            "destination": "https://mdrepres-n8n.zcnijx.easypanel.host/webhook/evolution-mdrepres",
+            "date_time": "2026-02-20T20:46:40.267Z",
+            "sender": "558496351987@s.whatsapp.net",
+            "server_url": "https://mdrepres-evolution-api.zcnijx.easypanel.host",
+            "apikey": "1868D58EBE59-4BAA-9A2C-61D36334527A"
+          },
+          "webhookUrl": "https://mdrepres-n8n.zcnijx.easypanel.host/webhook/evolution-mdrepres",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Organização de dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Organização de dados": {
+      "main": [
+        [
+          {
+            "node": "Filtrar por números",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "mensagem texto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "mensagem imagem",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "mensagem aúdio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "mensagem pdf",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "mensagem imagem": {
+      "main": [
+        [
+          {
+            "node": "Contém título/legenda1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "mensagem texto": {
+      "main": [
+        [
+          {
+            "node": "Add conteúdo ou cria a key para filtro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze an image": {
+      "main": [
+        [
+          {
+            "node": "Obter m dia em base66",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "mensagem aúdio": {
+      "main": [
+        [
+          {
+            "node": "Obter m dia em base64",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording": {
+      "main": [
+        [
+          {
+            "node": "Add conteúdo ou cria a key para filtro2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "mensagem pdf": {
+      "main": [
+        [
+          {
+            "node": "Contém título/legenda",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze document": {
+      "main": [
+        [
+          {
+            "node": "Obter m dia em base4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtrar por números": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Foi eu que enviei a msg?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agente Coordenador",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Mensagens dos colaboradores",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Mensagens dos clientes",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pode criar a tarefa?": {
+      "main": [
+        [
+          {
+            "node": "Msg pergunta",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "A mensagem contém qual tipo de arquivo?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Msg resposta1": {
+      "main": [
+        [
+          {
+            "node": "Redis8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obter m dia em base64": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "Analyze an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obter m dia em base65": {
+      "main": [
+        [
+          {
+            "node": "Convert to File2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File2": {
+      "main": [
+        [
+          {
+            "node": "Analyze document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chave block": {
+      "main": [
+        [
+          {
+            "node": "Mensagens dos colaboradores",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Mensagens dos clientes",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Redis1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Redis2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis2": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Redis3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis3": {
+      "main": [
+        [
+          {
+            "node": "Redis5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem final para o agente": {
+      "main": [
+        [
+          {
+            "node": "Add conteúdo ou cria a key para filtro4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quebra de texto para JSON": {
+      "main": [
+        [
+          {
+            "node": "Tarefa ou negócio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Foi eu que enviei a msg?": {
+      "main": [
+        [
+          {
+            "node": "Chave block",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Descrição final da imagem": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Transcrição final do aúdio": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Descrição final do pdf": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Dados para o bitrix2": {
+      "main": [
+        [
+          {
+            "node": "Criação da task2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Organização dos dados 3": {
+      "main": [
+        [
+          {
+            "node": "Dados para o bitrix2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Organização dos dados 1": {
+      "main": [
+        [
+          {
+            "node": "Dados para o bitrix3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados para o bitrix3": {
+      "main": [
+        [
+          {
+            "node": "Criação da task1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "A mensagem contém qual tipo de arquivo?": {
+      "main": [
+        [
+          {
+            "node": "Organização dos dados 1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Organização dos dados 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obter m dia em base4": {
+      "main": [
+        [
+          {
+            "node": "Convert to File6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File6": {
+      "main": [
+        [
+          {
+            "node": "Transforma o pdf em url do bitrix",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obter m dia em base5": {
+      "main": [
+        [
+          {
+            "node": "Convert to File7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File7": {
+      "main": [
+        [
+          {
+            "node": "Mudança de nome do arquivo1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transforma o pdf em url do bitrix": {
+      "main": [
+        [
+          {
+            "node": "Obter m dia em base5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envia o pdf para o drive do bitrix": {
+      "main": [
+        [
+          {
+            "node": "Descrição final do pdf",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mudança de nome do arquivo1": {
+      "main": [
+        [
+          {
+            "node": "Envia o pdf para o drive do bitrix",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis5": {
+      "main": [
+        [
+          {
+            "node": "Mensagem final para o agente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File8": {
+      "main": [
+        [
+          {
+            "node": "Transforma a imagem em url do bitrix",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File9": {
+      "main": [
+        [
+          {
+            "node": "Mudança de nome do arquivo2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transforma a imagem em url do bitrix": {
+      "main": [
+        [
+          {
+            "node": "Obter m dia em base67",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mudança de nome do arquivo2": {
+      "main": [
+        [
+          {
+            "node": "Envia a imagem para o drive do bitrix",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envia a imagem para o drive do bitrix": {
+      "main": [
+        [
+          {
+            "node": "Descrição final da imagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obter m dia em base66": {
+      "main": [
+        [
+          {
+            "node": "Convert to File8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obter m dia em base67": {
+      "main": [
+        [
+          {
+            "node": "Convert to File9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obter m dia em base": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente Coordenador": {
+      "main": [
+        [
+          {
+            "node": "Quebra de texto para JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente de tarefas": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente Coordenador",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente de negocios": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente Coordenador",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agente de tarefas",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Agente de negocios",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente Coordenador",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Agente de tarefas",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Agente de negocios",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tarefa ou negócio": {
+      "main": [
+        [
+          {
+            "node": "Pode criar a tarefa?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pode criar o negocio?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Msg pergunta3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sabe que é uma tarefa ou negocio?": {
+      "main": [
+        [
+          {
+            "node": "Agente Coordenador",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar texto1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pode criar o negocio?": {
+      "main": [
+        [
+          {
+            "node": "Msg pergunta1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Busca no banco de empresas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar texto1": {
+      "main": [
+        [
+          {
+            "node": "Add conteúdo ou cria a key para filtro5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criação da task1": {
+      "main": [
+        [
+          {
+            "node": "Msg resposta1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criação da task2": {
+      "main": [
+        [
+          {
+            "node": "Msg resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contém título/legenda": {
+      "main": [
+        [
+          {
+            "node": "Add conteúdo ou cria a key para filtro3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Obter m dia em base65",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contém título/legenda1": {
+      "main": [
+        [
+          {
+            "node": "Add conteúdo ou cria a key para filtro1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Obter m dia em base",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unir todos os textos da key de filtragem para o if": {
+      "main": [
+        [
+          {
+            "node": "Sabe que é uma tarefa ou negocio?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add conteúdo ou cria a key para filtro": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add conteúdo ou cria a key para filtro1": {
+      "main": [
+        [
+          {
+            "node": "Obter m dia em base",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add conteúdo ou cria a key para filtro2": {
+      "main": [
+        [
+          {
+            "node": "Transcrição final do aúdio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add conteúdo ou cria a key para filtro3": {
+      "main": [
+        [
+          {
+            "node": "Obter m dia em base65",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add conteúdo ou cria a key para filtro4": {
+      "main": [
+        [
+          {
+            "node": "Unir todos os textos da key de filtragem para o if",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis8": {
+      "main": [
+        []
+      ]
+    },
+    "Redis9": {
+      "main": [
+        []
+      ]
+    },
+    "Busca no banco de empresas": {
+      "main": [
+        [
+          {
+            "node": "A empresa está cadastrada?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "A empresa está cadastrada?": {
+      "main": [
+        [
+          {
+            "node": "Msg pergunta2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Organização dos dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados para o bitrix": {
+      "main": [
+        [
+          {
+            "node": "Criação do negócio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis10": {
+      "main": [
+        []
+      ]
+    },
+    "Msg resposta": {
+      "main": [
+        [
+          {
+            "node": "Redis9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Msg resposta2": {
+      "main": [
+        [
+          {
+            "node": "Redis10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Organização dos dados": {
+      "main": [
+        [
+          {
+            "node": "Dados para o bitrix",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ID da empresa": {
+      "main": [
+        [
+          {
+            "node": "Busca de contatos da empresa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criação do negócio": {
+      "main": [
+        [
+          {
+            "node": "Busca do arquivo no drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Busca de contatos da empresa": {
+      "main": [
+        [
+          {
+            "node": "Listagem dos contatos",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Msg resposta2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listagem dos contatos": {
+      "main": [
+        [
+          {
+            "node": "Adiciona os contatos ao negócio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Adiciona os contatos ao negócio": {
+      "main": [
+        [
+          {
+            "node": "Limitar a quantidade de itens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Busca do arquivo no drive": {
+      "main": [
+        [
+          {
+            "node": "Download do PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download do PDF": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload do PDF no negócio": {
+      "main": [
+        [
+          {
+            "node": "ID da empresa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Upload do PDF no negócio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limitar a quantidade de itens": {
+      "main": [
+        [
+          {
+            "node": "Msg resposta2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "3c2b9255-368c-4383-a075-5e271a5f6bc7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6f30f2b26e437cf019b6432a1fdc8c53288fd3d876254e60e05ea866c7a298bc"
+  },
+  "id": "XCMwpgHSPUVYK5Uc",
+  "tags": []
+}
